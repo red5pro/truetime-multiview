@@ -7,9 +7,14 @@ const {
 	host,
 	app,
 	abr,
+	abrLow,
+	abrHigh,
 	streamManager,
 	streams: streamsQueryList,
 } = query();
+
+// TODO: Logic of stream in main video going away and being replaced by next stream,
+// while also removing the previous subscriber thumbnail.
 
 let streamsList = []; // [{label:<string>, streamName:<string>}]
 let mainStream = undefined;
@@ -84,35 +89,49 @@ const updateStreamsList = (list) => {
 const addNewStreams = (newStreams) => {
 	newStreams.forEach(async (stream, index) => {
 		let sub;
-		if (index === 0) {
-			// maintainStreamVariant: true
-			// Uses switchStream API to switch between thumbnails.
+		let { streamName } = stream;
+		if (index === 0 && !mainStream) {
 			sub = await new Subscriber().init(
-				{ ...baseConfig, ...stream, maintainStreamVariant: true },
+				{
+					...baseConfig,
+					...stream,
+					streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+					maintainStreamVariant: true,
+				},
 				document.querySelector(".main-video-container")
 			);
-			sub.setAsMain(true, onSwitchStream);
+			sub.setAsMain(true);
 			mainStream = sub;
 		} else {
 			sub = await new Subscriber().init(
-				{ ...baseConfig, ...stream },
+				{
+					...baseConfig,
+					...stream,
+					streamName: abr ? `${streamName}_${abrLow}` : streamName,
+					maintainStreamVariant: true,
+				},
 				document.querySelector(".secondary-video-container")
 			);
-			sub.setAsMain(false, onSwitchStream);
+			sub.setAsMain(false);
+			sub.onselect = onSwitchStream;
 		}
 		sub.start();
 	});
 };
 
-const onSwitchStream = (toSubscriber) => {
-	console.log(NAME, "onSwitchStream:subscriber", toSubscriber);
-	// TODO: If abr is set, switch the ladders.
-	const { label, streamName } = toSubscriber.getConfiguration();
-	const { label: fromLabel, streamName: fromStreamName } =
+const onSwitchStream = (toSubscriber, configuration) => {
+	let { label, streamName } = configuration;
+	let { label: fromLabel, streamName: fromStreamName } =
 		mainStream.getConfiguration();
-	mainStream.switchTo({ label, streamName });
-	toSubscriber.switchTo({ label: fromLabel, streamName: fromStreamName });
-	mainStream = toSubscriber;
+
+	mainStream.switchTo({
+		label,
+		streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+	});
+	toSubscriber.switchTo({
+		label: fromLabel,
+		streamName: abr ? `${fromStreamName}_${abrLow}` : fromStreamName,
+	});
 };
 
 const start = async () => {

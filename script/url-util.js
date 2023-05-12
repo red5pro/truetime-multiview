@@ -4,6 +4,8 @@ export const query = () => {
 	const searchParams = new URLSearchParams(window.location.search);
 	let streams = [];
 	const abrOpt = searchParams.get("abr");
+	const abrLowOpt = searchParams.get("abrlow");
+	const abrHighOpt = searchParams.get("abrhigh");
 	const smOpt = searchParams.get("sm");
 	let scriptURL = searchParams.get("url")
 		? decodeURIComponent(searchParams.get("url"))
@@ -15,6 +17,8 @@ export const query = () => {
 		? decodeURIComponent(searchParams.get("app"))
 		: undefined;
 	let abr = abrOpt ? abrOpt.toLowerCase() === "true" : false;
+	let abrLow = abrLowOpt ? parseInt(abrLowOpt, 10) : 3;
+	let abrHigh = abrHighOpt ? parseInt(abrHighOpt, 10) : 1;
 	let streamManager = smOpt ? smOpt.toLowerCase() === "true" : false;
 	searchParams.forEach((value, key) => {
 		if (key !== "url" && key !== "host" && key !== "app") {
@@ -29,6 +33,8 @@ export const query = () => {
 		host,
 		app,
 		abr,
+		abrLow,
+		abrHigh,
 		streamManager,
 		streams,
 	};

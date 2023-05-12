@@ -34,7 +34,9 @@ const generateElement = (configuration, container, labelText) => {
 	const label = document.createElement("p");
 	label.textContent = labelText;
 	label.classList.add("subscriber_label");
+	label.classList.add("unselectable");
 	element.appendChild(video);
+	element.appendChild(label);
 	container.appendChild(element);
 	return element;
 };
@@ -54,6 +56,7 @@ class Subscriber {
 		this.onselect = undefined;
 		this.retryTimeout = 0;
 		this.streamConfigurationToSwitchTo = undefined;
+		this.destroyed = false;
 		this.eventHandler = this.onSubscriberEvent.bind(this);
 	}
 
@@ -71,6 +74,8 @@ class Subscriber {
 							...this.streamConfigurationToSwitchTo,
 						};
 						this.streamConfigurationToSwitchTo = undefined;
+						this.element.querySelector(".subscriber_label").textContent =
+							this.configuration.label || this.configuration.streamName;
 						// Note: When stream switching, we return to live.
 						// TODO: Set playhead to current time.
 					}
@@ -125,25 +130,47 @@ class Subscriber {
 		}
 	}
 
+	async destroy() {
+		this.destroyed = true;
+		try {
+			await this.stop();
+		} catch (e) {
+			console.warn(e);
+		} finally {
+			const parent = this.element.parentNode;
+			parentNode.removeChild(this.element);
+		}
+	}
+
 	async retry() {
+		if (this.destroyed) {
+			return;
+		}
 		await this.stop();
 		clearTimeout(this.retryTimeout);
 		this.retryTimeout = setTimeout(async () => {
 			clearTimeout(this.retryTimeout);
-			this.subscriber = new red5prosdk.WHEPClient();
-			this.subscriber.on("*", this.eventHandler);
-			await this.subscriber.init(this.configuration);
+			try {
+				this.subscriber = new red5prosdk.WHEPClient();
+				this.subscriber.on("*", this.eventHandler);
+				await this.subscriber.init(this.configuration);
+			} catch (e) {
+				// TODO: Show temp unavailable.
+				console.error(`[Subscriber:${this.configuration.label}]`, e);
+				this.retry();
+			}
 		}, RETRY_DELAY);
 	}
 
 	switchTo(configuration) {
-		const { app } = this.configuration;
+		const { app, streamName: previousStreamName } = this.configuration;
 		const regex = new RegExp(`^${app}/`);
 		const { streamName } = configuration;
 		const switchPath = regex.exec(streamName)
 			? streamName
 			: `${app}/${streamName}`;
 		this.streamConfigurationToSwitchTo = configuration;
+		console.log("[Subscriber] switchStreams", previousStreamName, streamName);
 		this.subscriber.callServer("switchStreams", [
 			{
 				path: switchPath,
@@ -152,9 +179,8 @@ class Subscriber {
 		]);
 	}
 
-	setAsMain(enabled, selectFn) {
+	setAsMain(enabled) {
 		this.isMain = enabled;
-		this.onselect = selectFn;
 		const video = this.element.querySelector(".subscriber_video");
 		if (enabled) {
 			video.classList.add("red5pro-media");
@@ -162,8 +188,10 @@ class Subscriber {
 		} else {
 			video.classList.remove("red5pro-media");
 			video.removeAttribute("controls");
-			video.addEventListener("click", () => {
-				this.onselect.call(null, this);
+			this.element.addEventListener("click", () => {
+				if (this.onselect) {
+					this.onselect.apply(null, [this, this.getConfiguration()]);
+				}
 			});
 		}
 	}
