@@ -16,7 +16,10 @@ const {
 // TODO: Logic of stream in main video going away and being replaced by next stream,
 // while also removing the previous subscriber thumbnail.
 
+// TODO: SDK update for on switchStreams, swaps HLS playback.
+
 let streamsList = []; // [{label:<string>, streamName:<string>}]
+let subscriberList = []; // [Subscriber]
 let mainStream = undefined;
 const UPDATE_INTERVAL = 5000;
 const NAME = "[RTMV]";
@@ -115,8 +118,56 @@ const addNewStreams = (newStreams) => {
 			sub.setAsMain(false);
 			sub.onselect = onSwitchStream;
 		}
-		sub.start();
+		if (sub) {
+			sub.start();
+			subscriberList.push(sub);
+		}
 	});
+};
+
+const removeOldStreams = async (oldStreams) => {
+	oldStreams.forEach((stream) => {
+		const { streamName: toRemoveStreamName } = stream;
+		let subscriber = subscriberList.find((sub) => {
+			const configuration = sub.getConfiguration();
+			const { streamName } = configuration;
+			return streamName === toRemoveStreamName;
+		});
+		if (subscriber) {
+			const index = subscriberList.indexOf(subscriber);
+			if (subscriber.getIsMain()) {
+				if (subscriberList.length > 1) {
+					subscriber.destroy();
+					const promoteIndex = index === 0 ? 1 : 0;
+					const subscriberToPromote = subscriberList[promoteIndex];
+					subscriberList.splice(promoteIndex, 1);
+					promoteToMain(subscriberToPromote);
+				}
+				mainStream = undefined;
+			} else {
+				subscriber.destroy();
+			}
+			subscriberList.splice(index, 1);
+		}
+	});
+};
+
+const promoteToMain = async (subscriber) => {
+	const configuration = subscriber.getConfiguration();
+	const { streamName } = configuration;
+	subscriber.destroy();
+	const sub = await new Subscriber().init(
+		{
+			...configuration,
+			streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+			maintainStreamVariant: true,
+		},
+		document.querySelector(".main-video-container")
+	);
+	sub.setAsMain(true);
+	sub.start();
+	subscriberList.push(sub);
+	mainStream = sub;
 };
 
 const onSwitchStream = (toSubscriber, configuration) => {
@@ -143,14 +194,15 @@ const start = async () => {
 			console.log(NAME, list);
 			const { newStreams, oldStreams } = updateStreamsList(list);
 			addNewStreams(newStreams);
-			// let t = setTimeout(() => {
-			// 	clearTimeout(t);
-			// 	start();
-			// }, UPDATE_INTERVAL);
+			removeOldStreams(oldStreams);
+			let t = setTimeout(() => {
+				clearTimeout(t);
+				start();
+			}, UPDATE_INTERVAL);
 		} else {
 			// If no scriptURL, we are using the streams query parameter to load the Map of streams.
 			streamsList = streamsQueryList;
-			const { newStreams, oldStreams } = updateStreamsList(streamsList);
+			const { newStreams } = updateStreamsList(streamsList);
 			addNewStreams(newStreams);
 		}
 	} catch (error) {

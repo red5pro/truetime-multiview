@@ -108,11 +108,13 @@ class Subscriber {
 		};
 		const { label, streamName } = this.configuration;
 		console.log("[Subscriber] configuration", this.configuration);
-		this.element = generateElement(
-			this.configuration,
-			container,
-			label || streamName
-		);
+		if (!this.element) {
+			this.element = generateElement(
+				this.configuration,
+				container,
+				label || streamName
+			);
+		}
 		try {
 			this.subscriber = new red5prosdk.WHEPClient();
 			this.subscriber.on("*", this.eventHandler);
@@ -152,18 +154,22 @@ class Subscriber {
 			console.warn(e);
 		} finally {
 			const parent = this.element.parentNode;
-			parentNode.removeChild(this.element);
+			parent.removeChild(this.element);
+			this.isMain = false;
 		}
 	}
 
 	async retry() {
+		clearTimeout(this.retryTimeout);
 		if (this.destroyed) {
 			return;
 		}
 		await this.stop();
-		clearTimeout(this.retryTimeout);
 		this.retryTimeout = setTimeout(async () => {
 			clearTimeout(this.retryTimeout);
+			if (this.destroyed) {
+				return;
+			}
 			try {
 				this.subscriber = new red5prosdk.WHEPClient();
 				this.subscriber.on("*", this.eventHandler);
@@ -195,12 +201,17 @@ class Subscriber {
 		]);
 	}
 
-	setAsMain(enabled) {
+	setAsMain(enabled, container) {
 		this.isMain = enabled;
 		const video = this.element.querySelector(".subscriber_video");
 		if (enabled) {
 			video.classList.add("red5pro-media");
 			video.setAttribute("controls", "controls");
+			const parent = this.element.parentNode;
+			if (container) {
+				parent.removeChild(this.element);
+				container.appendChild(this.element);
+			}
 		} else {
 			video.classList.remove("red5pro-media");
 			video.removeAttribute("controls");
@@ -227,6 +238,10 @@ class Subscriber {
 
 	getConfiguration() {
 		return this.configuration;
+	}
+
+	getIsMain() {
+		return this.isMain;
 	}
 }
 
