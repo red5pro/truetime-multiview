@@ -27,6 +27,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .secondary-video-container > .subscriber {
@@ -45,6 +46,8 @@ body {
 
 .subscriber {
 	position: relative;
+	display: flex;
+	align-items: center;
 }
 
 .subscriber_video {
@@ -62,6 +65,14 @@ body {
 	margin: 0;
 	text-align: center;
 	backdrop-filter: blur(88px);
+}
+
+.subscriber_notification {
+	background-color: #ffffff99;
+	padding: 4px 0;
+	margin: 0 10px;
+	text-align: center;
+	position: absolute;
 }
 
 .hidden {

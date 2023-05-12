@@ -41,6 +41,16 @@ const generateElement = (configuration, container, labelText) => {
 	return element;
 };
 
+const generateNotification = (message) => {
+	const notification = document.createElement("div");
+	notification.classList.add("subscriber_notification");
+	const messageElement = document.createElement("p");
+	messageElement.classList.add("subscriber_notification-message");
+	messageElement.textContent = message;
+	notification.appendChild(messageElement);
+	return notification;
+};
+
 const reconnectEvents = [
 	"Connect.Failure",
 	"Subscribe.InvalidName",
@@ -81,6 +91,7 @@ class Subscriber {
 					}
 				}
 			} else if (reconnectEvents.indexOf(type) > -1) {
+				this.setAvailable(false);
 				this.retry();
 			}
 		}
@@ -107,7 +118,7 @@ class Subscriber {
 			this.subscriber.on("*", this.eventHandler);
 			await this.subscriber.init(this.configuration);
 		} catch (e) {
-			// TODO: Show temp unavailable.
+			this.setAvailable(false);
 			console.error(`[Subscriber:${this.configuration.label}]`, e);
 			this.retry();
 		}
@@ -121,6 +132,9 @@ class Subscriber {
 	}
 
 	async stop() {
+		if (!this.subscriber) {
+			return;
+		}
 		try {
 			this.subscriber.off("*", this.eventHandler);
 			await this.subscriber.unsubscribe();
@@ -154,8 +168,10 @@ class Subscriber {
 				this.subscriber = new red5prosdk.WHEPClient();
 				this.subscriber.on("*", this.eventHandler);
 				await this.subscriber.init(this.configuration);
+				await this.subscriber.subscribe();
+				this.setAvailable(true);
 			} catch (e) {
-				// TODO: Show temp unavailable.
+				this.setAvailable(false);
 				console.error(`[Subscriber:${this.configuration.label}]`, e);
 				this.retry();
 			}
@@ -193,6 +209,19 @@ class Subscriber {
 					this.onselect.apply(null, [this, this.getConfiguration()]);
 				}
 			});
+		}
+	}
+
+	setAvailable(available) {
+		let notification = this.element.querySelector(".subscriber_notification");
+		if (available && notification) {
+			notification.parentNode.removeChild(notification);
+		} else if (!notification && !available) {
+			notification = generateNotification(
+				"Stream temporarily unavailable.",
+				this.element
+			);
+			this.element.appendChild(notification);
 		}
 	}
 
