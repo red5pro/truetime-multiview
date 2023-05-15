@@ -100,6 +100,7 @@ const addNewStreams = (newStreams) => {
 					...stream,
 					streamName: abr ? `${streamName}_${abrHigh}` : streamName,
 					maintainStreamVariant: true,
+					liveSeek: { enabled: true },
 				},
 				document.querySelector(".main-video-container")
 			);

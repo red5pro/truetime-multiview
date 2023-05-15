@@ -12,6 +12,10 @@ body {
 	z-index: 100 !important;
 }
 
+.red5pro-hls-vod {
+	position: unset !important;
+}
+
 #app {
 	display: flex;
 	flex-direction: column;

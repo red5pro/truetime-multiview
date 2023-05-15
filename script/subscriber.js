@@ -3,16 +3,14 @@
 // TODO: Show "temporarily unavailable" when stream is not available.
 
 const RETRY_DELAY = 2000;
-const baseSeekableConfig = {
-	liveSeek: {
-		enabled: true,
-		baseURL: undefined,
-		fullURL: undefined,
-		hlsjsRef: undefined,
-		hlsElement: undefined,
-		usePlaybackControlsUI: true,
-		options: { debug: false, backBufferLength: 0 },
-	},
+const liveSeekConfig = {
+	enabled: false,
+	baseURL: undefined,
+	fullURL: undefined,
+	hlsjsRef: undefined,
+	hlsElement: undefined,
+	usePlaybackControlsUI: true,
+	options: { debug: false, backBufferLength: 0 },
 };
 
 const getIdFromStreamName = (streamName) => {
@@ -79,17 +77,11 @@ class Subscriber {
 				const json = JSON.parse(message.data);
 				if (json.data.type === "result" && json.data.message) {
 					if (json.data.message === "Stream switch: Success") {
-						this.configuration = {
-							...this.configuration,
-							...this.streamConfigurationToSwitchTo,
-						};
-						this.streamConfigurationToSwitchTo = undefined;
-						this.element.querySelector(".subscriber_label").textContent =
-							this.configuration.label || this.configuration.streamName;
-						// Note: When stream switching, we return to live.
-						// TODO: Set playhead to current time.
+						this.onSwitchTo();
 					}
 				}
+			} else if (type === "WebRTC.Subscribe.StreamSwitch") {
+				this.onSwitchTo();
 			} else if (reconnectEvents.indexOf(type) > -1) {
 				this.setAvailable(false);
 				this.retry();
@@ -97,14 +89,27 @@ class Subscriber {
 		}
 	}
 
+	onSwitchTo() {
+		this.configuration = {
+			...this.configuration,
+			...this.streamConfigurationToSwitchTo,
+		};
+		this.streamConfigurationToSwitchTo = undefined;
+		this.element.querySelector(".subscriber_label").textContent =
+			this.configuration.label || this.configuration.streamName;
+		// Note: When stream switching, we return to live.
+		// TODO: Set playhead to current time.
+	}
+
 	async init(configuration, container) {
 		if (this.subscriber) {
 			await this.stop();
 		}
+		const { liveSeek } = configuration;
 		this.configuration = {
 			...configuration,
-			...baseSeekableConfig,
 			mediaElementId: getIdFromStreamName(configuration.streamName),
+			liveSeek: liveSeek ? { ...liveSeekConfig, ...liveSeek } : liveSeekConfig,
 		};
 		const { label, streamName } = this.configuration;
 		console.log("[Subscriber] configuration", this.configuration);
