@@ -142,6 +142,8 @@ const removeOldStreams = async (oldStreams) => {
 					const subscriberToPromote = subscriberList[promoteIndex];
 					subscriberList.splice(promoteIndex, 1);
 					promoteToMain(subscriberToPromote);
+				} else {
+					subscriber.destroy();
 				}
 				mainStream = undefined;
 			} else {

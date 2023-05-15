@@ -5,7 +5,7 @@
 const RETRY_DELAY = 2000;
 const baseSeekableConfig = {
 	liveSeek: {
-		enable: true,
+		enabled: true,
 		baseURL: undefined,
 		fullURL: undefined,
 		hlsjsRef: undefined,
