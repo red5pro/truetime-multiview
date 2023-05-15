@@ -164,6 +164,7 @@ const promoteToMain = async (subscriber) => {
 			...configuration,
 			streamName: abr ? `${streamName}_${abrHigh}` : streamName,
 			maintainStreamVariant: true,
+			liveSeek: { enabled: true },
 		},
 		document.querySelector(".main-video-container")
 	);
