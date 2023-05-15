@@ -1,6 +1,5 @@
 /* global red5prosdk */
-
-// TODO: Show "temporarily unavailable" when stream is not available.
+import CustomControls from "./controls";
 
 const RETRY_DELAY = 2000;
 const liveSeekConfig = {
@@ -9,7 +8,7 @@ const liveSeekConfig = {
 	fullURL: undefined,
 	hlsjsRef: undefined,
 	hlsElement: undefined,
-	usePlaybackControlsUI: true,
+	usePlaybackControlsUI: false,
 	options: { debug: false, backBufferLength: 0 },
 };
 
@@ -62,6 +61,7 @@ class Subscriber {
 		this.subscriber = undefined;
 		this.configuration = undefined;
 		this.onselect = undefined;
+		this.controls = undefined;
 		this.retryTimeout = 0;
 		this.streamConfigurationToSwitchTo = undefined;
 		this.destroyed = false;
@@ -124,6 +124,9 @@ class Subscriber {
 			this.subscriber = new red5prosdk.WHEPClient();
 			this.subscriber.on("*", this.eventHandler);
 			await this.subscriber.init(this.configuration);
+			if (this.configuration.liveSeek.enabled) {
+				this.controls = new CustomControls(this.subscriber, this.element);
+			}
 		} catch (e) {
 			this.setAvailable(false);
 			console.error(`[Subscriber:${this.configuration.label}]`, e);
@@ -209,16 +212,18 @@ class Subscriber {
 	setAsMain(enabled, container) {
 		this.isMain = enabled;
 		const video = this.element.querySelector(".subscriber_video");
+		const label = this.element.querySelector(".subscriber_label");
 		if (enabled) {
-			video.classList.add("red5pro-media");
-			video.setAttribute("controls", "controls");
+			label.classList.add("subscriber_label-top");
+			// video.classList.add("red5pro-media");
+			// video.setAttribute("controls", "controls");
 			const parent = this.element.parentNode;
 			if (container) {
 				parent.removeChild(this.element);
 				container.appendChild(this.element);
 			}
 		} else {
-			video.classList.remove("red5pro-media");
+			// video.classList.remove("red5pro-media");
 			video.removeAttribute("controls");
 			this.element.addEventListener("click", () => {
 				if (this.onselect) {

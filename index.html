@@ -13,6 +13,25 @@
 		<div id="app">
 			<div class="main-video-container">
 				<!-- <video class="main-video" autoplay playsinline muted controls></video> -->
+				<div class="r5-custom-controls">
+					<p class="r5-custom-controls_bar">
+						<button id="r5-play-pause-button">Play</button>
+						&nbsp;&nbsp;
+						<input
+							class="r5-custom-controls_scrubber"
+							id="r5-scrubber"
+							type="range"
+							min="0"
+							max="100"
+							step="1"
+							value="0"
+						/>
+						&nbsp;&nbsp;
+						<span id="r5-time-display">00:00:00</span>
+						&nbsp;&nbsp;
+						<button id="r5-mute-unmute-button">Mute</button>
+					</p>
+				</div>
 			</div>
 			<div class="secondary-video-container"></div>
 		</div>
