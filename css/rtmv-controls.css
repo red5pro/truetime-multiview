@@ -1,0 +1,32 @@
+.red5pro-media-control-bar {
+  background-color: unset !important;
+  backdrop-filter: blur(30px);
+  color: white !important;
+}
+
+.red5pro-media-slider-progress,
+.red5pro-media-slider-button {
+  background-color: white !important;
+}
+
+.red5pro-media-slider-progress,
+.red5pro-media-slider-track {
+  border-radius: 10px;
+  height: 3px !important;
+}
+
+.red5pro-media-slider-button {
+  /* width: 36px !important;
+	height: 36px !important;
+	max-width: 36px !important;
+	max-height: 36px !important; */
+}
+
+.red5pro-media-volume-slider,
+.red5pro-media-fullscreen-button {
+  display: none !important;
+}
+
+.red5pro-media-control-bar {
+  z-index: 100 !important;
+}

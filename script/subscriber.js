@@ -8,8 +8,8 @@ const liveSeekConfig = {
 	fullURL: undefined,
 	hlsjsRef: undefined,
 	hlsElement: undefined,
-	usePlaybackControlsUI: false,
-	options: { debug: false, backBufferLength: 0 },
+	usePlaybackControlsUI: true, //false,
+	options: { debug: false, backBufferLength: 0, autoStartLoad: false },
 };
 
 const getIdFromStreamName = (streamName) => {
@@ -65,14 +65,31 @@ class Subscriber {
 		this.retryTimeout = 0;
 		this.streamConfigurationToSwitchTo = undefined;
 		this.destroyed = false;
+		this.hlsElement = undefined;
+		this.hlsControl = undefined;
+		this.durationHandler = this.onHLSDurationLoad.bind(this);
 		this.eventHandler = this.onSubscriberEvent.bind(this);
+	}
+
+	onHLSDurationLoad() {
+		this.hlsElement.removeEventListener("durationchange", this.durationHandler);
+		this.hlsControl.startLoad(this.hlsElement.duration - 6);
+	}
+
+	onHLSInitialized({ hlsControl, hlsElement }) {
+		this.hlsControl = hlsControl;
+		this.hlsElement = hlsElement;
+		this.hlsElement.addEventListener("durationchange", this.durationHandler);
 	}
 
 	onSubscriberEvent(event) {
 		const { type, data } = event;
 		if (type !== "Subscribe.Time.Update") {
 			console.log("[Subscriber]", type, data);
-			if (type === "WebRTC.DataChannel.Message") {
+			if (type === "WebRTC.LiveSeek.Enabled") {
+				const { hlsControl, hlsElement } = data;
+				this.onHLSInitialized({ hlsControl, hlsElement });
+			} else if (type === "WebRTC.DataChannel.Message") {
 				const { message } = data;
 				const json = JSON.parse(message.data);
 				if (json.data.type === "result" && json.data.message) {
@@ -124,9 +141,9 @@ class Subscriber {
 			this.subscriber = new red5prosdk.WHEPClient();
 			this.subscriber.on("*", this.eventHandler);
 			await this.subscriber.init(this.configuration);
-			if (this.configuration.liveSeek.enabled) {
-				this.controls = new CustomControls(this.subscriber, this.element);
-			}
+			// if (this.configuration.liveSeek.enabled) {
+			// 	this.controls = new CustomControls(this.subscriber, this.element);
+			// }
 		} catch (e) {
 			this.setAvailable(false);
 			console.error(`[Subscriber:${this.configuration.label}]`, e);

@@ -6,14 +6,16 @@
 		<title>Red5 Pro RMV</title>
 		<link rel="stylesheet" href="css/main.css" />
 		<link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
+		<!-- SDK controls style override. -->
+		<link rel="stylesheet" href="css/rtmv-controls.css" />
 		<script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
 		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
 	</head>
 	<body>
 		<div id="app">
 			<div class="main-video-container">
-				<!-- <video class="main-video" autoplay playsinline muted controls></video> -->
-				<div class="r5-custom-controls">
+				<!-- Custom Controls if not using the controls from SDK. -->
+				<!-- <div class="r5-custom-controls">
 					<p class="r5-custom-controls_bar">
 						<button id="r5-play-pause-button">Play</button>
 						&nbsp;&nbsp;
@@ -31,7 +33,7 @@
 						&nbsp;&nbsp;
 						<button id="r5-mute-unmute-button">Mute</button>
 					</p>
-				</div>
+				</div> -->
 			</div>
 			<div class="secondary-video-container"></div>
 		</div>
