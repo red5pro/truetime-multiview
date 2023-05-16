@@ -1,6 +1,6 @@
 /* global red5prosdk */
 import { query } from "./url-util.js";
-import { showError, closeError } from "./modal-util.js";
+import { showError, closeError, showWarning } from "./modal-util.js";
 import Subscriber from "./subscriber.js";
 const {
 	scriptURL,
@@ -105,6 +105,7 @@ const addNewStreams = (newStreams) => {
 				document.querySelector(".main-video-container")
 			);
 			sub.setAsMain(true);
+			sub.onunsupported = onLiveSeekUnsupported;
 			mainStream = sub;
 		} else {
 			sub = await new Subscriber().init(
@@ -172,6 +173,13 @@ const promoteToMain = async (subscriber) => {
 	sub.start();
 	subscriberList.push(sub);
 	mainStream = sub;
+};
+
+const onLiveSeekUnsupported = () => {
+	showWarning(
+		"Live Seek Unsupported",
+		"Live seek is not supported by this browser. You will only be able to select and watch live streams."
+	);
 };
 
 const onSwitchStream = (toSubscriber, configuration) => {

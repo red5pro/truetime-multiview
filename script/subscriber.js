@@ -1,15 +1,20 @@
 /* global red5prosdk */
-import CustomControls from "./controls";
+// import CustomControls from "./controls";
 
 const RETRY_DELAY = 2000;
 const liveSeekConfig = {
 	enabled: false,
 	baseURL: undefined,
-	fullURL: undefined,
+	fullURL: undefined, // "https://todd-826.red5pro.net/live/streams/five.mp4",
 	hlsjsRef: undefined,
 	hlsElement: undefined,
 	usePlaybackControlsUI: true, //false,
-	options: { debug: false, backBufferLength: 0, autoStartLoad: false },
+	options: {
+		debug: false,
+		backBufferLength: 0,
+		autoStartLoad: false,
+		// liveSyncDurationCount: 10,
+	},
 };
 
 const getIdFromStreamName = (streamName) => {
@@ -61,6 +66,7 @@ class Subscriber {
 		this.subscriber = undefined;
 		this.configuration = undefined;
 		this.onselect = undefined;
+		this.onunsupported = undefined;
 		this.controls = undefined;
 		this.retryTimeout = 0;
 		this.streamConfigurationToSwitchTo = undefined;
@@ -73,7 +79,9 @@ class Subscriber {
 
 	onHLSDurationLoad() {
 		this.hlsElement.removeEventListener("durationchange", this.durationHandler);
-		this.hlsControl.startLoad(this.hlsElement.duration - 6);
+		if (this.hlsControl) {
+			this.hlsControl.startLoad(this.hlsElement.duration - 6);
+		}
 	}
 
 	onHLSInitialized({ hlsControl, hlsElement }) {
@@ -86,7 +94,10 @@ class Subscriber {
 		const { type, data } = event;
 		if (type !== "Subscribe.Time.Update") {
 			console.log("[Subscriber]", type, data);
-			if (type === "WebRTC.LiveSeek.Enabled") {
+			if (type === "WebRTC.LiveSeek.Unsupported") {
+				// TODO: Notify that only live selection will be available.
+				this.onunsupported.apply(null, [this]);
+			} else if (type === "WebRTC.LiveSeek.Enabled") {
 				const { hlsControl, hlsElement } = data;
 				this.onHLSInitialized({ hlsControl, hlsElement });
 			} else if (type === "WebRTC.DataChannel.Message") {

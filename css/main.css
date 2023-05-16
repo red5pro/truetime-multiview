@@ -6,6 +6,7 @@ body {
 	border: 2px solid #aaa;
 	background-color: white;
 	box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
+	max-width: calc(100vw * 0.75);
 }
 
 .red5pro-hls-vod {

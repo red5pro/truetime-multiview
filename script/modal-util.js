@@ -1,9 +1,10 @@
-const modal = document.getElementById("error-modal");
+const errorModal = document.getElementById("error-modal");
+const warningModal = document.getElementById("warning-modal");
 
 export const showError = (title, message, fatal = false) => {
-	const titleElement = modal.querySelector(".error-modal_title");
-	const messageElement = modal.querySelector(".error-modal_message");
-	const closeElement = modal.querySelector(".error-modal_close");
+	const titleElement = errorModal.querySelector(".error-modal_title");
+	const messageElement = errorModal.querySelector(".error-modal_message");
+	const closeElement = errorModal.querySelector(".error-modal_close");
 	titleElement.textContent = title;
 	messageElement.textContent = message;
 	if (fatal && closeElement) {
@@ -13,15 +14,37 @@ export const showError = (title, message, fatal = false) => {
 			closeError();
 		});
 	}
-	modal.showModal();
+	errorModal.showModal();
 };
 
 export const closeError = () => {
-	const closeElement = modal.querySelector(".error-modal_close");
+	const closeElement = errorModal.querySelector(".error-modal_close");
 	if (closeElement) {
 		closeElement.removeEventListener("click", () => {
 			closeError();
 		});
 	}
-	modal.close();
+	errorModal.close();
+};
+
+export const showWarning = (title, message) => {
+	const titleElement = warningModal.querySelector(".warning-modal_title");
+	const messageElement = warningModal.querySelector(".warning-modal_message");
+	const closeElement = warningModal.querySelector(".warning-modal_close");
+	titleElement.textContent = title;
+	messageElement.textContent = message;
+	closeElement.addEventListener("click", () => {
+		closeWarning();
+	});
+	warningModal.showModal();
+};
+
+export const closeWarning = () => {
+	const closeElement = warningModal.querySelector(".warning-modal_close");
+	if (closeElement) {
+		closeElement.removeEventListener("click", () => {
+			closeError();
+		});
+	}
+	warningModal.close();
 };
