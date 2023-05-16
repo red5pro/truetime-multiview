@@ -9,10 +9,27 @@
   background-color: white !important;
 }
 
+.red5pro-media-seektime-slider {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-top: unset !important;
+}
+
 .red5pro-media-slider-progress,
 .red5pro-media-slider-track {
-  border-radius: 10px;
+  border-radius: 10px !important;
   height: 3px !important;
+  position: absolute !important;
+  top: unset !important;
+}
+
+.red5pro-media-slider-button {
+  top: unset !important;
+}
+
+.red5pro-media-slider-track {
+  width: 100%;
 }
 
 .red5pro-media-slider-button {
