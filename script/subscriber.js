@@ -46,6 +46,7 @@ const generateElement = (configuration, container, labelText) => {
 const generateNotification = (message) => {
 	const notification = document.createElement("div");
 	notification.classList.add("subscriber_notification");
+	notification.classList.add("unselectable");
 	const messageElement = document.createElement("p");
 	messageElement.classList.add("subscriber_notification-message");
 	messageElement.textContent = message;
