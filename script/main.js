@@ -213,8 +213,7 @@ const start = async () => {
 			}, UPDATE_INTERVAL);
 		} else {
 			// If no scriptURL, we are using the streams query parameter to load the Map of streams.
-			streamsList = streamsQueryList;
-			const { newStreams } = updateStreamsList(streamsList);
+			const { newStreams } = updateStreamsList(streamsQueryList);
 			addNewStreams(newStreams);
 		}
 	} catch (error) {

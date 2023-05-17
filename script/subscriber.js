@@ -123,10 +123,18 @@ class Subscriber {
 			...this.streamConfigurationToSwitchTo,
 		};
 		this.streamConfigurationToSwitchTo = undefined;
-		this.element.querySelector(".subscriber_label").textContent =
+		const video = this.element.querySelector(".subscriber_video");
+		const label = this.element.querySelector(".subscriber_label");
+		label.textContent =
 			this.configuration.label || this.configuration.streamName;
-		// Note: When stream switching, we return to live.
-		// TODO: Set playhead to current time.
+		this.subscriber.seekTo(1);
+		if (this.isMain) {
+			this.subscriber.unmute();
+			this.subscriber.unmuteAudio();
+		} else {
+			this.subscriber.mute();
+			this.subscriber.muteAudio();
+		}
 	}
 
 	async init(configuration, container) {
@@ -250,6 +258,9 @@ class Subscriber {
 				parent.removeChild(this.element);
 				container.appendChild(this.element);
 			}
+			this.subscriber.unmute();
+			this.subscriber.unmuteAudio();
+			this.subscriber.seekTo(1);
 		} else {
 			// video.classList.remove("red5pro-media");
 			video.removeAttribute("controls");
@@ -258,6 +269,8 @@ class Subscriber {
 					this.onselect.apply(null, [this, this.getConfiguration()]);
 				}
 			});
+			this.subscriber.mute();
+			this.subscriber.muteAudio();
 		}
 	}
 
