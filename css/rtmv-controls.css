@@ -9,6 +9,10 @@
   background-color: white !important;
 }
 
+.red5pro-media-time-field {
+  font-size: 1rem;
+}
+
 .red5pro-media-seektime-slider {
   position: relative !important;
   display: flex !important;
@@ -46,4 +50,20 @@
 
 .red5pro-media-control-bar {
   z-index: 100 !important;
+}
+
+.red5pro-media-pause-button {
+  background-image: url(/lib/red5pro/icons/pause.svg) !important;
+}
+
+.red5pro-media-play-button {
+  background-image: url(/lib/red5pro/icons/play.svg) !important;
+}
+
+.red5pro-media-mute-button {
+  background-image: url(/lib/red5pro/icons/volume-x.svg) !important;
+}
+
+.red5pro-media-unmute-button {
+  background-image: url(/lib/red5pro/icons/volume-2.svg) !important;
 }

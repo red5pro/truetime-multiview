@@ -1,5 +1,9 @@
 body {
 	margin: 0;
+	font-family: sans-serif;
+	font-weight: 300;
+	font-size: 0.8rem;
+	background-color: black;
 }
 
 :modal {
@@ -125,10 +129,6 @@ body {
 }
 
 @media (orientation: landscape) {
-	body {
-		background-color: aqua;
-	}
-
 	#app {
 		display: block;
 	}
@@ -188,7 +188,7 @@ body {
 }
 
 @media (orientation: portrait) {
-	body {
+	/* body {
 		background-color: yellow;
-	}
+	} */
 }
