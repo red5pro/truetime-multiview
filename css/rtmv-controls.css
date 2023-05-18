@@ -2,6 +2,7 @@
   background-color: unset !important;
   backdrop-filter: blur(30px);
   color: white !important;
+  padding: 1rem 1rem !important;
 }
 
 .red5pro-media-slider-progress,
@@ -9,8 +10,15 @@
   background-color: white !important;
 }
 
+.red5pro-media-slider-button {
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
+}
+
 .red5pro-media-time-field {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .red5pro-media-seektime-slider {
@@ -18,6 +26,8 @@
   display: flex !important;
   align-items: center !important;
   margin-top: unset !important;
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
 }
 
 .red5pro-media-slider-progress,

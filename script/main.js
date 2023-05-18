@@ -106,6 +106,7 @@ const addNewStreams = (newStreams) => {
 			);
 			sub.setAsMain(true);
 			sub.onunsupported = onLiveSeekUnsupported;
+			sub.onautoplaymuted = onAutoPlayMuted;
 			mainStream = sub;
 		} else {
 			sub = await new Subscriber().init(
@@ -179,6 +180,13 @@ const onLiveSeekUnsupported = () => {
 	showWarning(
 		"Live Seek Unsupported",
 		"Live seek is not supported by this browser. You will only be able to select and watch live streams."
+	);
+};
+
+const onAutoPlayMuted = () => {
+	showWarning(
+		"Auto Play Muted",
+		"Auto play is muted by this browser. You will need to manually unmute the video."
 	);
 };
 

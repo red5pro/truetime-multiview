@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
 		<!-- SDK controls style override. -->
 		<link rel="stylesheet" href="css/rtmv-controls.css" />
+		<link rel="stylesheet" href="css/demo.css" />
 		<script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
 		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
 	</head>
@@ -39,17 +40,25 @@
 				<p class="secondary-video-container_more">More ...</p>
 			</div>
 		</div>
+		<p id="flip" class="hidden">
+			<button id="flip-button">Flip</button>
+		</p>
 		<dialog id="error-modal">
-			<h3 class="error-modal_title"></h3>
-			<p class="error-modal_message"></p>
-			<button class="error-modal_close">OK</button>
+			<div class="dialog_container">
+				<h3 class="error-modal_title"></h3>
+				<p class="error-modal_message"></p>
+				<button class="error-modal_close">OK</button>
+			</div>
 		</dialog>
 		<dialog id="warning-modal">
-			<h3 class="warning-modal_title"></h3>
-			<p class="warning-modal_message"></p>
-			<button class="warning-modal_close">Got It</button>
+			<div class="dialog_container">
+				<h3 class="warning-modal_title"></h3>
+				<p class="warning-modal_message"></p>
+				<button class="warning-modal_close">Got It</button>
+			</div>
 		</dialog>
 		<script src="lib/red5pro/red5pro-sdk.min.js"></script>
+		<script type="module" src="script/demo-mode.js"></script>
 		<script type="module" src="script/main.js"></script>
 	</body>
 </html>

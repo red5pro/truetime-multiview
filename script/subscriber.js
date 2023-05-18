@@ -68,6 +68,7 @@ class Subscriber {
 		this.configuration = undefined;
 		this.onselect = undefined;
 		this.onunsupported = undefined;
+		this.onautoplaymuted = undefined;
 		this.controls = undefined;
 		this.retryTimeout = 0;
 		this.streamConfigurationToSwitchTo = undefined;
@@ -93,11 +94,17 @@ class Subscriber {
 
 	onSubscriberEvent(event) {
 		const { type, data } = event;
+		const name = this.configuration.label || this.configuration.streamName;
 		if (type !== "Subscribe.Time.Update") {
-			console.log("[Subscriber]", type, data);
+			console.log(`[Subscriber:${name}]`, type, data);
 			if (type === "WebRTC.LiveSeek.Unsupported") {
-				// TODO: Notify that only live selection will be available.
-				this.onunsupported.apply(null, [this]);
+				if (this.onunsupported) {
+					this.onunsupported.apply(null, [this]);
+				}
+			} else if (type === "Subscribe.Autoplay.Muted") {
+				if (this.onautoplaymuted) {
+					this.onautoplaymuted.apply(null, [this]);
+				}
 			} else if (type === "WebRTC.LiveSeek.Enabled") {
 				const { hlsControl, hlsElement } = data;
 				this.onHLSInitialized({ hlsControl, hlsElement });
@@ -111,6 +118,11 @@ class Subscriber {
 				}
 			} else if (type === "WebRTC.Subscribe.StreamSwitch") {
 				this.onSwitchTo();
+			} else if (type === "Subscribe.Playback.Change") {
+				if (!this.isMain) {
+					this.subscriber.mute();
+					this.subscriber.muteAudio();
+				}
 			} else if (reconnectEvents.indexOf(type) > -1) {
 				this.setAvailable(false);
 				this.retry();
@@ -130,8 +142,8 @@ class Subscriber {
 			this.configuration.label || this.configuration.streamName;
 		this.subscriber.seekTo(1);
 		if (this.isMain) {
-			this.subscriber.unmute();
-			this.subscriber.unmuteAudio();
+			// this.subscriber.unmute();
+			// this.subscriber.unmuteAudio();
 		} else {
 			this.subscriber.mute();
 			this.subscriber.muteAudio();
@@ -259,6 +271,7 @@ class Subscriber {
 				parent.removeChild(this.element);
 				container.appendChild(this.element);
 			}
+			video.removeAttribute("muted");
 			this.subscriber.unmute();
 			this.subscriber.unmuteAudio();
 			this.subscriber.seekTo(1);

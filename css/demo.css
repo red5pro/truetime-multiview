@@ -1,0 +1,33 @@
+.body_demo {
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+}
+
+.flip_demo {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.app_demo {
+  max-width: 420px;
+  height: calc(100vh - 40px) !important;
+  border-radius: 20px;
+  margin: 20px;
+  box-sizing: border-box;
+}
+
+.main-video-container_demo,
+.secondary-video-container_demo {
+  width: 100% !important;
+}
+
+.secondary-video-container_demo {
+  background-color: black;
+}
+
+.secondary-video-container > .subscriber {
+  width: calc(420px / 3) !important;
+}

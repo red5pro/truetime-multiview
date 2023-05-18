@@ -6,11 +6,30 @@ body {
 	background-color: black;
 }
 
+dialog > .dialog_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	column-gap: 12px;
+	row-gap: 12px;
+}
+
+dialog > .dialog_container > h3 {
+	margin: 0;
+}
+
 :modal {
 	border: 2px solid #aaa;
 	background-color: white;
 	box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
-	max-width: calc(100vw * 0.75);
+	max-width: calc(100vw * 0.5);
+}
+
+.warning-modal_message,
+.error-modal_message {
+	line-height: 1.2rem;
+	text-align: center;
+	margin: 4px;
 }
 
 .red5pro-hls-vod {
@@ -44,6 +63,7 @@ body {
 	width: calc(100vw / 3);
 	height: unset;
 	aspect-ratio: 1 / 1;
+	cursor: pointer;
 }
 
 .main-video,
@@ -126,69 +146,4 @@ body {
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, supported by most modern browsers */
-}
-
-@media (orientation: landscape) {
-	#app {
-		display: block;
-	}
-
-	.main-video-container {
-		height: 100vh;
-	}
-
-	.secondary-video-container {
-		position: absolute;
-		bottom: 50px;
-		/* bottom is based on height of main video control bar */
-		right: 10px;
-		height: calc(100vh / 5);
-		flex-direction: row;
-		align-items: flex-end;
-	}
-
-	.secondary-video-container_more {
-		display: none;
-		color: white;
-		padding: 10px 20px;
-		margin: 0;
-		backdrop-filter: brightness(0.5);
-	}
-
-	.secondary-video-container > .subscriber {
-		height: 100%;
-		width: unset;
-		border-radius: 20px;
-		box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
-	}
-
-	.secondary-video-container > .subscriber > .subscriber_label {
-		border-bottom-left-radius: 20px;
-		border-bottom-right-radius: 20px;
-	}
-
-	.secondary-video-container > .subscriber:not(:first-child) {
-		margin-left: calc(-100vh / 10);
-	}
-
-	.secondary-video-container > .subscriber:hover {
-		transform: translateY(-20px);
-		transition: 0.4s ease-out;
-		z-index: 100;
-	}
-
-	.secondary-video-container
-		> .subscriber:hover
-		~ .secondary-video-container
-		> .subscriber {
-		position: relative;
-		left: 50px;
-		transition: 0.4s ease-out;
-	}
-}
-
-@media (orientation: portrait) {
-	/* body {
-		background-color: yellow;
-	} */
 }
