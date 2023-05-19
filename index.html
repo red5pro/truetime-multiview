@@ -37,22 +37,42 @@
 						website.
 					</p>
 					<textarea class="embed-dialog_code" readonly></textarea>
-					<hr />
+					<hr style="width: 100%" />
 					<p><strong>Embed Options</strong></p>
 					<div class="embed-options">
-						<p class="embed-options_option">
-							<label for="embed-options_host">Host</label>
-							<input id="embed-options_host" />
-						</p>
-						<p class="embed-options_option">
-							<label for="embed-options_app">App</label>
-							<input id="embed-options_app" />
-						</p>
-						<p class="embed-options_option">
-							<input type="checkbox" id="embed-options_service" />
-							<label for="embed-options_service_url">Service</label>
-							<input id="embed-options_service_url" />
-						</p>
+						<div class="embed-options_option">
+							<label class="embed-options_option_label" for="embed-options_host"
+								>Host:</label
+							>
+							<input
+								id="embed-options_host"
+								class="embed-options_option_input"
+							/>
+						</div>
+						<div class="embed-options_option">
+							<label class="embed-options_option_label" for="embed-options_app"
+								>App:</label
+							>
+							<input
+								id="embed-options_app"
+								class="embed-options_option_input"
+							/>
+						</div>
+						<div class="embed-options_option">
+							<p class="embed-options_option_label">
+								<input
+									type="checkbox"
+									id="embed-options_service"
+									style="margin-right: 10px"
+								/>
+								<label for="embed-options_service_url">Service:</label>
+							</p>
+							<input
+								id="embed-options_service_url"
+								class="embed-options_option_input"
+								:
+							/>
+						</div>
 					</div>
 					<p>
 						<button class="embed-dialog_close">Copy & Close</button>

@@ -5,6 +5,10 @@
   color: black;
 }
 
+.embed-dialog_title {
+  margin: 0;
+}
+
 .embed-dialog_container_title {
   background-color: #fff;
 }
@@ -14,6 +18,39 @@
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+}
+
+.embed-options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  margin-bottom: 10px;
+}
+
+.embed-options_option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.embed-options_option > label {
+  display: block !important;
+}
+
+.embed-options_option_label {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  margin: 0;
+  margin-right: 16px;
+}
+
+.embed-options_option_input {
+  flex-grow: 1;
 }
 
 .embed-dialog_code {
