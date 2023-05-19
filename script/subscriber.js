@@ -1,6 +1,10 @@
 /* global red5prosdk */
 // import CustomControls from "./controls";
 
+import { query } from "./url-util.js";
+
+const { debugMode } = query();
+
 const RETRY_DELAY = 2000;
 const liveSeekConfig = {
 	enabled: false,
@@ -10,7 +14,7 @@ const liveSeekConfig = {
 	hlsElement: undefined,
 	usePlaybackControlsUI: true, //false,
 	options: {
-		debug: false,
+		debug: debugMode,
 		backBufferLength: 0,
 		autoStartLoad: false,
 		// liveSyncDurationCount: 10,

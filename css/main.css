@@ -149,3 +149,11 @@ dialog > .dialog_container > h3 {
 	-ms-user-select: none; /* Internet Explorer/Edge */
 	user-select: none; /* Non-prefixed version, supported by most modern browsers */
 }
+
+#embedder {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	z-index: 2000;
+	cursor: pointer;
+}

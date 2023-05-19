@@ -10,6 +10,7 @@ const {
 	abrLow,
 	abrHigh,
 	streamManager,
+	debugMode,
 	streams: streamsQueryList,
 } = query();
 
@@ -24,7 +25,7 @@ let mainStream = undefined;
 const UPDATE_INTERVAL = 5000;
 const NAME = "[RTMV]";
 
-red5prosdk.setLogLevel("debug");
+red5prosdk.setLogLevel(debugMode ? "debug" : "error");
 console.log(NAME, "scriptURL", scriptURL);
 console.log(NAME, "host", host);
 console.log(NAME, "app", app);
@@ -83,8 +84,6 @@ const updateStreamsList = (list) => {
 			);
 		});
 	});
-	console.log(NAME, "newStreams", newStreams);
-	console.log(NAME, "oldStreams", oldStreams);
 	streamsList = list;
 	return { newStreams, oldStreams };
 };

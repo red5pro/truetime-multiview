@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
 		<!-- SDK controls style override. -->
 		<link rel="stylesheet" href="css/rtmv-controls.css" />
+		<link rel="stylesheet" href="css/embed.css" />
 		<link rel="stylesheet" href="css/demo.css" />
 		<script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
 		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -19,9 +20,46 @@
 				<p class="secondary-video-container_more">More ...</p>
 			</div>
 		</div>
+		<div id="embedder" class="hidden">
+			<p>
+				<img src="icons/gear-solid.svg" alt="Embed" width="22" height="22" />
+			</p>
+		</div>
 		<p id="flip" class="hidden">
 			<button id="flip-button">Flip</button>
 		</p>
+		<dialog id="embed-dialog">
+			<div class="embed-dialog_container">
+				<h3 class="embed-dialog_title">Embed Realtime Multi-Viewer</h3>
+				<div class="embed-dialog_options">
+					<p class="embed-dialog_message">
+						Copy and paste the following code to embed this video on your
+						website.
+					</p>
+					<textarea class="embed-dialog_code" readonly></textarea>
+					<hr />
+					<p><strong>Embed Options</strong></p>
+					<div class="embed-options">
+						<p class="embed-options_option">
+							<label for="embed-options_host">Host</label>
+							<input id="embed-options_host" />
+						</p>
+						<p class="embed-options_option">
+							<label for="embed-options_app">App</label>
+							<input id="embed-options_app" />
+						</p>
+						<p class="embed-options_option">
+							<input type="checkbox" id="embed-options_service" />
+							<label for="embed-options_service_url">Service</label>
+							<input id="embed-options_service_url" />
+						</p>
+					</div>
+					<p>
+						<button class="embed-dialog_close">Copy & Close</button>
+					</p>
+				</div>
+			</div>
+		</dialog>
 		<dialog id="error-modal">
 			<div class="dialog_container">
 				<h3 class="error-modal_title"></h3>
@@ -37,6 +75,7 @@
 			</div>
 		</dialog>
 		<script src="lib/red5pro/red5pro-sdk.min.js"></script>
+		<script type="module" src="script/embed-mode.js"></script>
 		<script type="module" src="script/demo-mode.js"></script>
 		<script type="module" src="script/main.js"></script>
 	</body>

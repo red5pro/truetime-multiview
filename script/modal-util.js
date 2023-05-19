@@ -10,9 +10,7 @@ export const showError = (title, message, fatal = false) => {
 	if (fatal && closeElement) {
 		closeElement.classList.add("hidden");
 	} else if (closeElement) {
-		closeElement.addEventListener("click", () => {
-			closeError();
-		});
+		closeElement.addEventListener("click", closeError);
 	}
 	errorModal.showModal();
 };
@@ -20,9 +18,7 @@ export const showError = (title, message, fatal = false) => {
 export const closeError = () => {
 	const closeElement = errorModal.querySelector(".error-modal_close");
 	if (closeElement) {
-		closeElement.removeEventListener("click", () => {
-			closeError();
-		});
+		closeElement.removeEventListener("click", closeError);
 	}
 	errorModal.close();
 };
@@ -33,18 +29,14 @@ export const showWarning = (title, message) => {
 	const closeElement = warningModal.querySelector(".warning-modal_close");
 	titleElement.textContent = title;
 	messageElement.textContent = message;
-	closeElement.addEventListener("click", () => {
-		closeWarning();
-	});
+	closeElement.addEventListener("click", closeWarning);
 	warningModal.showModal();
 };
 
 export const closeWarning = () => {
 	const closeElement = warningModal.querySelector(".warning-modal_close");
 	if (closeElement) {
-		closeElement.removeEventListener("click", () => {
-			closeError();
-		});
+		closeElement.removeEventListener("click", closeWarning);
 	}
 	warningModal.close();
 };

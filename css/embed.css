@@ -1,0 +1,29 @@
+.embed-dialog_container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: black;
+}
+
+.embed-dialog_container_title {
+  background-color: #fff;
+}
+
+.embed-dialog_options {
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.embed-dialog_code {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-height: 120px;
+  max-height: calc(100vh * 0.5);
+}
+
+.embed-dialog_close {
+  width: fit-content;
+}
