@@ -96,6 +96,7 @@ dialog > .dialog_container > h3 {
 	margin: 0;
 	text-align: center;
 	backdrop-filter: blur(88px);
+	z-index: 2;
 }
 
 .subscriber_label-top {
@@ -110,6 +111,7 @@ dialog > .dialog_container > h3 {
 	text-align: center;
 	position: absolute;
 	backdrop-filter: blur(88px);
+	z-index: 1;
 }
 
 .r5-custom-controls {
