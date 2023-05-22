@@ -33,9 +33,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .flip_demo {
   display: block;
-  position: absolute;
-  top: 10px;
-  right: 20px;
 }
 
 .app_demo {

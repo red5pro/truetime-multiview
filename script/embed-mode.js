@@ -43,7 +43,10 @@ const HOST_INSERT = 'YOUR_RED5PRO_SERVER'
 
 const getURL = () => {
   const src = srcReg.exec(code.textContent)[1]
-  return new URL(src)
+  let url = new URL(src)
+  url.searchParams.delete('demo')
+  url.searchParams.delete('embed')
+  return url
 }
 
 const onHostChange = (event) => {
@@ -181,7 +184,9 @@ const show = () => {
   const url = hasHostDefined()
     ? window.location.href.replace(host, HOST_INSERT)
     : `${window.location.href}&host=${HOST_INSERT}`
-  const insert = new URL(url)
+  let insert = new URL(url)
+  insert.searchParams.delete('demo')
+  insert.searchParams.delete('embed')
   insert.pathname = '/embed'
   code.textContent = `<iframe src="${insert.toString()}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>`
 

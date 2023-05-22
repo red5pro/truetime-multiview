@@ -39,10 +39,15 @@ hr {
 .hidetooltip.hidetooltip.hidetooltip + [role="tooltip"] {
 	visibility: hidden;
 	position: absolute;
-	top: 2rem;
-	left: 2rem;
-	background: black;
-	color: white;
+	top: 40px;
+	right: -60px;
+	background: lightgrey;
+	color: black;
+	padding: 10px;
+	border-radius: 5px;
+	z-index: 101;
+	line-height: 1.2rem;
+	box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
 }
 [aria-describedby]:hover,
 [aria-describedby]:focus {
@@ -197,10 +202,21 @@ dialog > .dialog_container > h3 {
 	user-select: none; /* Non-prefixed version, supported by most modern browsers */
 }
 
-#embedder {
+#tools {
 	position: absolute;
 	top: 0px;
 	right: 10px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 0px;
+	align-items: flex-end;
+}
+
+#tools > p {
+	margin: 0;
+}
+
+#embedder {
 	z-index: 2000;
 	cursor: pointer;
 }

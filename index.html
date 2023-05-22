@@ -43,14 +43,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 				<p class="secondary-video-container_more">More ...</p>
 			</div>
 		</div>
-		<div id="embedder" class="hidden">
-			<p>
-				<img src="icons/gear-solid.svg" alt="Embed" width="22" height="22" />
+		<div id="tools">
+			<div id="embedder" class="hidden">
+				<p>
+					<img src="icons/gear-solid.svg" alt="Embed" width="22" height="22" />
+				</p>
+			</div>
+			<p id="flip" class="hidden">
+				<button id="flip-button">Flip</button>
 			</p>
 		</div>
-		<p id="flip" class="hidden">
-			<button id="flip-button">Flip</button>
-		</p>
 		<dialog id="embed-dialog">
 			<div class="embed-dialog_container">
 				<h3 class="embed-dialog_title">Embed Realtime Multi-Viewer</h3>
@@ -102,7 +104,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 								width="14px"
 								height="14px"
 							/>
-							<p id="serviceinfo" role="tooltip">Hello!</p>
+							<p id="serviceinfo" role="tooltip">
+								By enabling and providing a service URL, the Realtime
+								Multi-Viewer will use the service to request a list of available
+								streams to load and playback.
+								<br />
+								<br />
+								The provided URL must be the full remote URL to the service,
+								including protocol. Example:
+								<strong>https://mydomain.com/my-service</strong>
+								<br />
+								<br />
+								By setting the service URL, any <strong>Streams</strong> defined
+								below will be ignored.
+							</p>
 						</div>
 						<div class="embed-options_option">
 							<p class="embed-options_option_label">
@@ -120,9 +135,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 								class="embed-options_option_info"
 								width="14px"
 								height="14px"
-								style="position: absolute; right: 14px"
+								style="position: absolute; right: 0px"
 							/>
-							<p id="streamsinfo" role="tooltip">Hello?</p>
+							<p id="streamsinfo" role="tooltip">
+								By providing a list of streams, the Realtime Multi-Viewer will
+								parse the added query params and load the streams for playback.
+								<br />
+								<br />
+								The <strong>Label</strong> value will be display textually, and
+								the <strong>Stream</strong> value will be used to load the
+								stream for playback.
+								<br />
+								<br />
+								If the <strong>Service</strong> option above is enabled, any
+								streams defined here will be ignored.
+							</p>
 						</div>
 						<div id="embed-options_stream-list"></div>
 					</div>

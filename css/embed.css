@@ -25,6 +25,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 #embed-dialog {
   max-height: calc(100vh - 80px);
+  overflow: visible;
+  /* for tooltips */
 }
 
 .embed-dialog_container {
@@ -59,7 +61,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   flex-direction: column;
   row-gap: 16px;
   margin-bottom: 10px;
-  overflow-y: scroll;
 }
 
 .embed-options_option {
@@ -67,6 +68,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   display: flex;
   align-items: center;
   margin: 0;
+  position: relative;
 }
 
 .embed-options_option > label {
@@ -113,6 +115,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   column-gap: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.stream-param > input {
+  width: 100%;
 }
 
 .stream-param > .stream-param_remove {
