@@ -35,6 +35,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 		<link rel="stylesheet" href="css/demo.css" />
 		<script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
 		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
+		<script>
+			(function () {
+				console.log("------- USAGE --------");
+				console.log("");
+				console.log(
+					"This page is designed to establish a Realtime Multi-Viewer webapp using query params. You can provide query params in the URL in order to configure the webapp."
+				);
+				console.log("The following query params are available:");
+				console.log(
+					"%c [host] " +
+						"%c       : hostname or IP. Default: `window.location.hostname`",
+					"background: #222; color: #ebefd0",
+					"background: #fff; color: #222"
+				);
+				console.log("");
+				console.log("------- /USAGE --------");
+			})();
+		</script>
 	</head>
 	<body>
 		<div id="app">
@@ -91,6 +109,15 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 									style="margin-right: 10px"
 								/>
 								<label for="embed-options_abr">ABR:</label>
+							</p>
+							<span>Variant Levels:</span>
+						</div>
+						<div id="embed-options_variants">
+							<p>
+								High:
+								<input type="number" id="embed-options_abrhigh" value="1" />
+								Low:
+								<input type="number" id="embed-options_abrlow" value="3" />
 							</p>
 						</div>
 						<div class="embed-options_option">
