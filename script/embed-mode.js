@@ -29,16 +29,16 @@ const { embedMode, host, app, scriptURL } = query()
 
 const embedder = document.querySelector('#embedder')
 const dialog = document.querySelector('#embed-dialog')
-const code = document.querySelector('.embed-dialog_code')
+const code = dialog.querySelector('.embed-dialog_code')
 const hostField = dialog.querySelector('#embed-options_host')
 const appField = dialog.querySelector('#embed-options_app')
 const serviceCheck = dialog.querySelector('#embed-options_service')
 const serviceField = dialog.querySelector('#embed-options_service_url')
+const streamsCheck = dialog.querySelector('#embed-options_params')
+const addStreamButton = dialog.querySelector('#add-stream-button')
+const streamsListOptions = dialog.querySelector('#embed-options_stream-list')
 
 const srcReg = /src="([^"]*)"/
-const hostReg = /host=([^&]*)/
-const appReg = /app=([^&]*)/
-const serviceReg = /url=([^&]*)/
 const HOST_INSERT = 'YOUR_RED5PRO_SERVER'
 
 const getURL = () => {
@@ -94,6 +94,73 @@ const onServiceChange = (event) => {
   }
 }
 
+const onStreamsParamChange = (event) => {
+  if (streamsCheck.checked) {
+    // 1. Gather child elements of streamsListOptions marked with class 'stream-param'
+    // 2. Create key-value pairs from those elements where the key is class 'stream-param_key' and the value is class 'stream-param_value'
+    // 3. Add them to search params of url
+  } else {
+    // 1. Gather child elements of streamsListOptions marked with class 'stream-param'
+    // 2. Create key-value pairs from those elements where the key is class 'stream-param_key' and the value is class 'stream-param_value'
+    // 3. Remove them from search params of url
+  }
+}
+
+const onStreamsKeyValueParamChange = (event) => {
+  let url = getURL()
+  let pair = []
+  const field = event.target
+  const { value: fieldValue } = field
+  const fieldValueAvailable = fieldValue && fieldValue.length > 0
+  const { value: key } = field.previousElementSibling
+  const keyAvailable = key && key.length > 0
+  const { value: value } = field.nextElementSibling
+  const valueAvailable = value && value.length > 0
+  if (keyAvailable && fieldValueAvailable) {
+    pair = [key, fieldValue]
+  } else if (valueAvailable && fieldValueAvailable) {
+    pair = [fieldValue, value]
+  }
+  if (pair.length === 2) {
+    url.searchParams.set(pair[0], pair[1])
+  } else {
+    url.searchParams.delete(pair[0])
+  }
+}
+
+const onAddStreamParam = () => {
+  const param = document.createElement('div')
+  param.classList.add('stream-param')
+  const key = document.createElement('input')
+  key.classList.add('stream-param_key')
+  key.type = 'text'
+  key.placeholder = 'Label'
+  const value = document.createElement('input')
+  value.classList.add('stream-param_value')
+  value.type = 'text'
+  value.placeholder = 'Stream Name'
+  const remove = document.createElement('img')
+  remove.src = 'icons/circle-xmark-solid.svg'
+  remove.classList.add('stream-param_remove')
+  param.appendChild(key)
+  param.appendChild(value)
+  param.appendChild(remove)
+  streamsListOptions.appendChild(param)
+  key.addEventListener('change', onStreamsKeyValueParamChange)
+  value.addEventListener('change', onStreamsKeyValueParamChange)
+  remove.addEventListener('click', onRemoveStreamParam)
+}
+
+const onRemoveStreamParam = (event) => {
+  const param = event.target.parentNode
+  const key = param.querySelector('.stream-param_key')
+  const value = param.querySelector('.stream-param_value')
+  key.removeEventListener('change', onStreamsKeyValueParamChange)
+  value.removeEventListener('change', onStreamsKeyValueParamChange)
+  streamsListOptions.removeChild(param)
+  // TODO: Update url search params by deleting by key.value
+}
+
 const show = () => {
   const url = hasHostDefined()
     ? window.location.href.replace(host, HOST_INSERT)
@@ -107,10 +174,15 @@ const show = () => {
   serviceField.value = scriptURL || ''
   serviceCheck.checked = scriptURL
 
+  // TODO: Add stream params to dialog
+
   hostField.addEventListener('change', onHostChange)
   appField.addEventListener('change', onAppChange)
   serviceField.addEventListener('change', onServiceChange)
   serviceCheck.addEventListener('change', onServiceChange)
+  streamsCheck.addEventListener('change', onStreamsParamChange)
+
+  addStreamButton.addEventListener('click', onAddStreamParam)
 
   const closeElement = dialog.querySelector('.embed-dialog_close')
   if (closeElement) {
@@ -125,6 +197,8 @@ const close = () => {
   hostField.removeEventListener('change', onHostChange)
   appField.removeEventListener('change', onAppChange)
   serviceField.removeEventListener('change', onServiceChange)
+
+  addStreamButton.removeEventListener('click', () => onAddStreamParam)
 
   if (closeElement) {
     closeElement.removeEventListener('click', close)
