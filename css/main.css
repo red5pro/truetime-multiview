@@ -39,8 +39,9 @@ hr {
 .hidetooltip.hidetooltip.hidetooltip + [role="tooltip"] {
 	visibility: hidden;
 	position: absolute;
-	top: 40px;
-	right: -60px;
+	top: 40%;
+	left: 20px;
+	right: 40px;
 	background: lightgrey;
 	color: black;
 	padding: 10px;
