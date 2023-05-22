@@ -219,6 +219,13 @@ const onSwitchStream = (toSubscriber, configuration) => {
 	let { label: fromLabel, streamName: fromStreamName } =
 		mainStream.getConfiguration();
 
+	fromStreamName = abr
+		? fromStreamName.substr(0, fromStreamName.indexOf(`_${abrHigh}`))
+		: fromStreamName;
+	streamName = abr
+		? streamName.substr(0, streamName.indexOf(`_${abrLow}`))
+		: streamName;
+
 	mainStream.switchTo({
 		label,
 		streamName: abr ? `${streamName}_${abrHigh}` : streamName,

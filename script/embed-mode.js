@@ -191,7 +191,7 @@ const show = () => {
   dialog.showModal()
 }
 
-const close = () => {
+const close = async () => {
   const closeElement = dialog.querySelector('.embed-dialog_close')
 
   hostField.removeEventListener('change', onHostChange)
@@ -199,6 +199,13 @@ const close = () => {
   serviceField.removeEventListener('change', onServiceChange)
 
   addStreamButton.removeEventListener('click', () => onAddStreamParam)
+
+  try {
+    await navigator.clipboard.writeText(code.value)
+    console.log(code.value)
+  } catch (err) {
+    console.error('Failed to copy text: ', err)
+  }
 
   if (closeElement) {
     closeElement.removeEventListener('click', close)
