@@ -1,3 +1,28 @@
+/*
+Copyright © 2015 Infrared5, Inc. All rights reserved.
+
+The accompanying code comprising examples for use solely in conjunction with Red5 Pro (the "Example Code")
+is  licensed  to  you  by  Infrared5  Inc.  in  consideration  of  your  agreement  to  the  following
+license terms  and  conditions.  Access,  use,  modification,  or  redistribution  of  the  accompanying
+code  constitutes your acceptance of the following license terms and conditions.
+
+Permission is hereby granted, free of charge, to you to use the Example Code and associated documentation
+files (collectively, the "Software") without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
+user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
+An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+
+The above copyright notice and this license shall be included in all copies or portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,  INCLUDING  BUT
+NOT  LIMITED  TO  THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR  A  PARTICULAR  PURPOSE  AND
+NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 import { query, hasHostDefined } from './url-util'
 
 const { embedMode, host, app, scriptURL } = query()
@@ -23,53 +48,42 @@ const getURL = () => {
 
 const onHostChange = (event) => {
   const host = event.target.value
-  const isDefined = code.textContent.match(hostReg)
-  if (isDefined) {
-    code.textContent = code.textContent.replace(hostReg, `host=${host}`)
-  } else {
-    const url = getURL()
+  const hostAvailable = host && host.length > 0
+  let url = getURL()
+  if (hostAvailable) {
     url.searchParams.set('host', host)
-    code.textContent = code.textContent.replace(
-      srcReg,
-      `src="${url.toString()}"`
-    )
+  } else {
+    url.searchParams.delete('host')
   }
+  code.textContent = code.textContent.replace(srcReg, `src="${url.toString()}"`)
 }
 
 const onAppChange = (event) => {
   const app = event.target.value
-  const isDefined = code.textContent.match(appReg)
-  if (isDefined) {
-    code.textContent = code.textContent.replace(appReg, `app=${app}`)
-  } else {
-    const url = getURL()
+  const appAvailable = app && app.length > 0
+  let url = getURL()
+  if (appAvailable) {
     url.searchParams.set('app', app)
-    code.textContent = code.textContent.replace(
-      srcReg,
-      `src="${url.toString()}"`
-    )
+  } else {
+    url.searchParams.delete('app')
   }
+  code.textContent = code.textContent.replace(srcReg, `src="${url.toString()}"`)
 }
 
 const onServiceChange = (event) => {
   if (serviceCheck.checked) {
     const service = serviceField.value
-    const isDefined = code.textContent.match(serviceReg)
-    if (isDefined) {
-      const url = getURL()
+    const serviceAvailable = service && service.length > 0
+    let url = getURL()
+    if (serviceAvailable) {
       url.searchParams.set('url', service)
-      code.textContent = code.textContent.replace(
-        srcReg,
-        `src="${url.toString()}"`
-      )
     } else {
-      const url = getURL()
-      url.searchParams.set('url', service)
-      code.textContent = code.textContent.replace(
-        srcReg,
-        `src="${url.toString()}"`
-      )
+      url.searchParams.delete('url')
     }
+    code.textContent = code.textContent.replace(
+      srcReg,
+      `src="${url.toString()}"`
+    )
   } else {
     const url = getURL()
     url.searchParams.delete('url')
