@@ -40,6 +40,8 @@ const code = dialog.querySelector('.embed-dialog_code')
 const hostField = dialog.querySelector('#embed-options_host')
 const appField = dialog.querySelector('#embed-options_app')
 const abrCheck = dialog.querySelector('#embed-options_abr')
+const abrLow = dialog.querySelector('#embed-options_abrlow')
+const abrHigh = dialog.querySelector('#embed-options_abrhigh')
 const serviceCheck = dialog.querySelector('#embed-options_service')
 const serviceField = dialog.querySelector('#embed-options_service_url')
 const streamsCheck = dialog.querySelector('#embed-options_params')
@@ -84,11 +86,9 @@ const onAppChange = (event) => {
 const onAbrChange = (event) => {
   let url = getURL()
   if (abrCheck.checked) {
-    const abrLow = dialog.querySelector('#embed-options_abrlow').value
-    const abrHigh = dialog.querySelector('#embed-options_abrhigh').value
     url.searchParams.set('abr', 'true')
-    url.searchParams.set('abrlow', abrLow)
-    url.searchParams.set('abrhigh', abrHigh)
+    url.searchParams.set('abrlow', abrLow.value)
+    url.searchParams.set('abrhigh', abrHigh.value)
   } else {
     url.searchParams.delete('abr')
     url.searchParams.delete('abrlow')
@@ -231,6 +231,8 @@ const show = () => {
   hostField.addEventListener('change', onHostChange)
   appField.addEventListener('change', onAppChange)
   abrCheck.addEventListener('change', onAbrChange)
+  abrLow.addEventListener('change', onAbrChange)
+  abrHigh.addEventListener('change', onAbrChange)
   serviceField.addEventListener('change', onServiceChange)
   serviceCheck.addEventListener('change', onServiceChange)
   streamsCheck.addEventListener('change', onStreamsParamChange)
@@ -252,6 +254,8 @@ const close = async () => {
   hostField.removeEventListener('change', onHostChange)
   appField.removeEventListener('change', onAppChange)
   abrCheck.removeEventListener('change', onAbrChange)
+  abrLow.removeEventListener('change', onAbrChange)
+  abrHigh.removeEventListener('change', onAbrChange)
   serviceField.removeEventListener('change', onServiceChange)
   streamsCheck.removeEventListener('change', onStreamsParamChange)
 

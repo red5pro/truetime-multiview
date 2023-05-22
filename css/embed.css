@@ -125,6 +125,18 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   cursor: pointer;
 }
 
+#embed-options_variants {
+  display: flex;
+  flex-direction: row;
+  column-gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+#embed-options_variants > input {
+  max-width: 2rem;
+}
+
 .embed-dialog_controls {
   display: flex;
   flex-direction: row;
