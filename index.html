@@ -1,27 +1,251 @@
+<!-- Copyright © 2015 Infrared5, Inc. All rights reserved.
+
+The accompanying code comprising examples for use solely in conjunction with Red5 Pro (the "Example Code")
+is  licensed  to  you  by  Infrared5  Inc.  in  consideration  of  your  agreement  to  the  following
+license terms  and  conditions.  Access,  use,  modification,  or  redistribution  of  the  accompanying
+code  constitutes your acceptance of the following license terms and conditions.
+
+Permission is hereby granted, free of charge, to you to use the Example Code and associated documentation
+files (collectively, the "Software") without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
+user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
+An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+
+The above copyright notice and this license shall be included in all copies or portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,  INCLUDING  BUT
+NOT  LIMITED  TO  THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR  A  PARTICULAR  PURPOSE  AND
+NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Red5 Pro RMV</title>
-		<link rel="stylesheet" href="css/main.css" />
-		<link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
-		<script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
-		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
-	</head>
-	<body>
-		<div id="app">
-			<div class="main-video-container">
-				<!-- <video class="main-video" autoplay playsinline muted controls></video> -->
-			</div>
-			<div class="secondary-video-container"></div>
-		</div>
-		<dialog id="error-modal">
-			<h3 class="error-modal_title"></h3>
-			<p class="error-modal_message"></p>
-			<button class="error-modal_close">OK</button>
-		</dialog>
-		<script src="lib/red5pro/red5pro-sdk.min.js"></script>
-		<script type="module" src="script/main.js"></script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Red5 Pro RTMV</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
+    <!-- SDK controls style override. -->
+    <link rel="stylesheet" href="css/rtmv-controls.css" />
+    <link rel="stylesheet" href="css/embed.css" />
+    <link rel="stylesheet" href="css/demo.css" />
+    <script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      ;(function () {
+        console.log('------- USAGE --------')
+        console.log('')
+        console.log(
+          'This page is designed to establish a Realtime Multi-Viewer webapp using query params. You can provide query params in the URL in order to configure the webapp.'
+        )
+        console.log('The following query params are available:')
+        console.log(
+          '%c [host] ' +
+            '%c       : hostname or IP. Default: `window.location.hostname`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log('------- /USAGE --------')
+      })()
+    </script>
+  </head>
+  <body>
+    <!-- Main UI-->
+    <div id="app">
+      <!-- Holds the Main Live Seek enabled playback stream. -->
+      <div class="main-video-container"></div>
+      <!-- Holds the tray of secondary playback streams. -->
+      <div class="secondary-video-container">
+        <p class="secondary-video-container_more">More ...</p>
+      </div>
+    </div>
+    <!-- Tools for when demo mode and embed mode are turned on. -->
+    <div id="tools">
+      <div id="embedder" class="hidden">
+        <p>
+          <img src="icons/gear-solid.svg" alt="Embed" width="22" height="22" />
+        </p>
+      </div>
+      <p id="flip" class="hidden">
+        <button id="flip-button">Flip</button>
+      </p>
+    </div>
+    <!-- Embed Mode Dialog -->
+    <dialog id="embed-dialog">
+      <div class="embed-dialog_container">
+        <h3 class="embed-dialog_title">Embed Realtime Multi-Viewer</h3>
+        <div class="embed-dialog_options">
+          <p class="embed-dialog_message">
+            Copy and paste the following code to embed this video on your
+            website.
+          </p>
+          <textarea class="embed-dialog_code" readonly></textarea>
+          <hr style="width: 100%" />
+          <p><strong>Embed Options</strong></p>
+          <div class="embed-options">
+            <div class="embed-options_option">
+              <label class="embed-options_option_label" for="embed-options_host"
+                >Host:</label
+              >
+              <input
+                id="embed-options_host"
+                class="embed-options_option_input"
+              />
+            </div>
+            <div class="embed-options_option">
+              <label class="embed-options_option_label" for="embed-options_app"
+                >App:</label
+              >
+              <input
+                id="embed-options_app"
+                class="embed-options_option_input"
+              />
+            </div>
+            <div class="embed-options_option">
+              <p class="embed-options_option_label">
+                <input
+                  type="checkbox"
+                  id="embed-options_abr"
+                  style="margin-right: 10px"
+                />
+                <label for="embed-options_abr">ABR:</label>
+              </p>
+              <span>Variant Levels:</span>
+            </div>
+            <div id="embed-options_variants">
+              High:
+              <input
+                type="number"
+                id="embed-options_abrhigh"
+                value="1"
+                min="1"
+                max="6"
+              />
+              Low:
+              <input
+                type="number"
+                id="embed-options_abrlow"
+                value="3"
+                min="1"
+                max="6"
+              />
+            </div>
+            <div class="embed-options_option">
+              <p class="embed-options_option_label">
+                <input
+                  type="checkbox"
+                  id="embed-options_service"
+                  style="margin-right: 10px"
+                />
+                <label for="embed-options_service_url">Service:</label>
+              </p>
+              <input
+                id="embed-options_service_url"
+                class="embed-options_option_input"
+                :
+              />
+              <img
+                aria-describedby="serviceinfo"
+                src="icons/circle-info-solid.svg"
+                class="embed-options_option_info"
+                width="14px"
+                height="14px"
+              />
+              <p id="serviceinfo" role="tooltip">
+                By enabling and providing a service URL, the Realtime
+                Multi-Viewer will use the service to request a list of available
+                streams to load and playback.
+                <br />
+                <br />
+                The provided URL must be the full remote URL to the service,
+                including protocol. Example:
+                <strong>https://mydomain.com/my-service</strong>
+                <br />
+                <br />
+                By setting the service URL, any <strong>Streams</strong> defined
+                below will be ignored.
+              </p>
+            </div>
+            <div class="embed-options_option">
+              <p class="embed-options_option_label">
+                <input
+                  type="checkbox"
+                  id="embed-options_params"
+                  style="margin-right: 10px"
+                />
+                <label for="embed-options_params">Streams:</label>
+              </p>
+              <button id="add-stream-button">Add Stream</button>
+              <img
+                aria-describedby="streamsinfo"
+                src="icons/circle-info-solid.svg"
+                class="embed-options_option_info"
+                width="14px"
+                height="14px"
+                style="position: absolute; margin-left: 0px; right: 14px"
+              />
+              <p id="streamsinfo" role="tooltip">
+                By providing a list of streams, the Realtime Multi-Viewer will
+                parse the added query params and load the streams for playback.
+                <br />
+                <br />
+                The <strong>Label</strong> value will be display textually, and
+                the <strong>Stream</strong> value will be used to load the
+                stream for playback.
+                <br />
+                <br />
+                If the <strong>Service</strong> option above is enabled, any
+                streams defined here will be ignored.
+              </p>
+            </div>
+            <div id="embed-options_stream-list"></div>
+          </div>
+          <hr />
+          <div class="embed-dialog_api">
+            <p class="embed-dialog_api_link">
+              <strong
+                ><a href="#" class="embed-dialog_link">API Reference</a></strong
+              >
+            </p>
+            <p class="embed-dialog_api_terms">
+              By using the embedding options you agree to the
+              <a href="LICENSE" target="_blank" class="embed-dialog_link"
+                >License and Terms of Service</a
+              >.
+            </p>
+          </div>
+          <hr />
+          <div class="embed-dialog_controls">
+            <button class="embed-dialog_close">Copy & Close</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <!-- Error Dialog -->
+    <dialog id="error-modal">
+      <div class="dialog_container">
+        <h3 class="error-modal_title"></h3>
+        <p class="error-modal_message"></p>
+        <button class="error-modal_close">OK</button>
+      </div>
+    </dialog>
+    <!-- Warning Dialog -->
+    <dialog id="warning-modal">
+      <div class="dialog_container">
+        <h3 class="warning-modal_title"></h3>
+        <p class="warning-modal_message"></p>
+        <button class="warning-modal_close">Got It</button>
+      </div>
+    </dialog>
+    <!-- scripts -->
+    <script src="lib/red5pro/red5pro-sdk.min.js"></script>
+    <script type="module" src="script/embed-mode.js"></script>
+    <script type="module" src="script/demo-mode.js"></script>
+    <script type="module" src="script/main.js"></script>
+  </body>
 </html>

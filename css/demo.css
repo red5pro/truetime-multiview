@@ -1,0 +1,171 @@
+/*
+Copyright © 2015 Infrared5, Inc. All rights reserved.
+
+The accompanying code comprising examples for use solely in conjunction with Red5 Pro (the "Example Code")
+is  licensed  to  you  by  Infrared5  Inc.  in  consideration  of  your  agreement  to  the  following
+license terms  and  conditions.  Access,  use,  modification,  or  redistribution  of  the  accompanying
+code  constitutes your acceptance of the following license terms and conditions.
+
+Permission is hereby granted, free of charge, to you to use the Example Code and associated documentation
+files (collectively, the "Software") without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
+user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
+An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+
+The above copyright notice and this license shall be included in all copies or portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,  INCLUDING  BUT
+NOT  LIMITED  TO  THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR  A  PARTICULAR  PURPOSE  AND
+NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* The style rules for when the application is in Demo Mode. */
+.body_demo {
+  background-color: antiquewhite;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip_demo {
+  display: block;
+}
+
+.app_demo {
+  background-color: gray;
+  box-sizing: border-box;
+  box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
+  border-radius: 20px;
+}
+
+.main-video-container_demo {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.main-video-container_demo > .subscriber > .subscriber_label {
+  padding: 10px 0;
+}
+
+.main-video-container_demo > .subscriber,
+.main-video-container_demo > .subscriber > .red5pro-media-container,
+.main-video-container_demo > .subscriber > .red5pro-media-container > video,
+.main-video-container_demo > .subscriber > .subscriber_label {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.secondary-video-container_demo {
+  background-color: black;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.secondary-video-container_demo > .subscriber {
+  border-radius: 20px;
+}
+
+/* Portait */
+
+.app_demo_portrait {
+  width: 420px;
+  max-width: 420px;
+  height: calc(100vh - 40px) !important;
+  margin: 20px;
+}
+
+.main-video-container_demo_portait,
+.secondary-video-container_demo_portrait {
+  width: 100% !important;
+}
+
+.secondary-video-container_demo_portrait > .subscriber {
+  width: calc(420px / 3) !important;
+  overflow: hidden;
+}
+
+/* Landscape */
+.app_demo_landscape {
+  height: 420px !important;
+  max-height: 420px;
+  position: relative;
+}
+
+.main-video-container_demo_landscape {
+  width: 100% !important;
+  height: 100% !important;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  z-index: 1;
+}
+
+.main-video-container_demo_landscape > .subscriber,
+.main-video-container_demo_landscape > .subscriber > .red5pro-media-container,
+.main-video-container_demo_landscape
+  > .subscriber
+  > .red5pro-media-container
+  > .red5pro-media-control-bar,
+.main-video-container_demo_landscape
+  > .subscriber
+  > .red5pro-media-container
+  > video {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.secondary-video-container_demo_landscape {
+  position: absolute !important;
+  bottom: 50px;
+  /* bottom is based on height of main video control bar */
+  right: 10px;
+  height: calc(420px / 5);
+  flex-direction: row;
+  align-items: flex-end;
+  background-color: unset;
+  z-index: 2;
+}
+
+.secondary-video-container_demo_landscape > .subscriber {
+  height: 100% !important;
+  width: unset !important;
+  border-radius: 20px;
+  box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
+  z-index: 10;
+}
+
+.secondary-video-container_demo_landscape > .subscriber > .subscriber_label {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: none;
+}
+
+.secondary-video-container_demo_landscape
+  > .subscriber
+  > .subscriber_notification {
+  border-radius: 20px;
+}
+
+.secondary-video-container_demo_landscape > .subscriber:not(:first-child) {
+  margin-left: calc(-420px / 14);
+}
+
+.secondary-video-container_demo_landscape > .subscriber:hover {
+  transform: translateY(-20px);
+  transition: 0.4s ease-out;
+  z-index: 100;
+}
+
+.secondary-video-container_demo_landscape
+  > .subscriber:hover
+  ~ .secondary-video-container_demo_landscape
+  > .subscriber {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}

@@ -1,0 +1,161 @@
+/*
+Copyright © 2015 Infrared5, Inc. All rights reserved.
+
+The accompanying code comprising examples for use solely in conjunction with Red5 Pro (the "Example Code")
+is  licensed  to  you  by  Infrared5  Inc.  in  consideration  of  your  agreement  to  the  following
+license terms  and  conditions.  Access,  use,  modification,  or  redistribution  of  the  accompanying
+code  constitutes your acceptance of the following license terms and conditions.
+
+Permission is hereby granted, free of charge, to you to use the Example Code and associated documentation
+files (collectively, the "Software") without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
+user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
+An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+
+The above copyright notice and this license shall be included in all copies or portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,  INCLUDING  BUT
+NOT  LIMITED  TO  THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR  A  PARTICULAR  PURPOSE  AND
+NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* The style rules for the embed dialog. */
+#embed-dialog {
+  max-height: calc(100vh - 80px);
+}
+
+.embed-dialog_container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  color: black;
+}
+
+.embed-dialog_title {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.embed-dialog_link {
+  /* text-decoration: none; */
+  color: rgb(201, 54, 49);
+}
+
+.embed-dialog_container_title {
+  background-color: #fff;
+}
+
+.embed-dialog_options {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.embed-options {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  margin-bottom: 10px;
+  overflow-y: hidden;
+}
+
+.embed-options_option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.embed-options_option > label {
+  display: block !important;
+}
+
+.embed-options_option_label {
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  margin: 0;
+  margin-right: 16px;
+}
+
+.embed-options_option_input {
+  flex-grow: 1;
+}
+
+.embed-options_option_info {
+  margin-left: 10px;
+}
+
+.embed-dialog_code {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-height: 120px;
+  max-height: calc(100vh * 0.5);
+}
+
+#embed-options_stream-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: flex-end;
+}
+
+#embed-options_stream-list > .stream-param {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.stream-param > input {
+  width: 100%;
+}
+
+.stream-param > .stream-param_remove {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+#embed-options_variants {
+  display: flex;
+  flex-direction: row;
+  column-gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+#embed-options_variants > input {
+  max-width: 2rem;
+}
+
+.embed-dialog_controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px 0;
+}
+
+.embed-dialog_api_link {
+  font-size: 1rem;
+}
+
+.embed-dialog_close {
+  width: fit-content;
+}
+
+@media (orientation: portrait) {
+  #embed-dialog {
+    max-width: calc(100vw - 100px);
+  }
+}

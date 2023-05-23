@@ -1,115 +1,229 @@
+/*
+Copyright © 2015 Infrared5, Inc. All rights reserved.
+
+The accompanying code comprising examples for use solely in conjunction with Red5 Pro (the "Example Code")
+is  licensed  to  you  by  Infrared5  Inc.  in  consideration  of  your  agreement  to  the  following
+license terms  and  conditions.  Access,  use,  modification,  or  redistribution  of  the  accompanying
+code  constitutes your acceptance of the following license terms and conditions.
+
+Permission is hereby granted, free of charge, to you to use the Example Code and associated documentation
+files (collectively, the "Software") without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
+user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
+An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+
+The above copyright notice and this license shall be included in all copies or portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,  INCLUDING  BUT
+NOT  LIMITED  TO  THE  WARRANTIES  OF  MERCHANTABILITY, FITNESS  FOR  A  PARTICULAR  PURPOSE  AND
+NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* The main style rules for the application. Default to profile orientation. */
 body {
-	margin: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-weight: 300;
+  font-size: 0.8rem;
+  background-color: black;
+}
+
+hr {
+  width: 100%;
+}
+
+[role='tooltip'],
+.hidetooltip.hidetooltip.hidetooltip + [role='tooltip'] {
+  visibility: hidden;
+  position: absolute;
+  top: 40%;
+  left: 20px;
+  right: 40px;
+  background: lightgrey;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 101;
+  line-height: 1.2rem;
+  box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
+}
+[aria-describedby]:hover,
+[aria-describedby]:focus {
+  position: relative;
+}
+[aria-describedby]:hover + [role='tooltip'],
+[aria-describedby]:focus + [role='tooltip'] {
+  visibility: visible;
+}
+
+dialog > .dialog_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 12px;
+}
+
+dialog > .dialog_container > h3 {
+  margin: 0;
 }
 
 :modal {
-	border: 2px solid #aaa;
-	background-color: white;
-	box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
+  border: 2px solid #aaa;
+  background-color: white;
+  box-shadow: 3px 3px 10px rgba(0 0 0 / 0.5);
+  max-width: calc(100vw * 0.5);
 }
 
-.red5pro-media-control-bar {
-	z-index: 100 !important;
+.warning-modal_message,
+.error-modal_message {
+  line-height: 1.2rem;
+  text-align: center;
+  margin: 4px;
 }
 
 .red5pro-hls-vod {
-	position: unset !important;
+  position: unset !important;
 }
 
 #app {
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .main-video-container {
-	flex-grow: 1;
-	width: 100vw;
+  flex-grow: 1;
+  width: 100vw;
+  position: relative;
 }
 
 .secondary-video-container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.secondary-video-container_more {
+  display: none;
 }
 
 .secondary-video-container > .subscriber {
-	width: calc(100vw / 3) !important;
-	height: unset !important;
-	aspect-ratio: 1 / 1;
+  width: calc(100vw / 3);
+  height: unset;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
 }
 
 .main-video,
 .subscriber {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	background-color: black;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: black;
 }
 
 .subscriber {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .subscriber_video {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .subscriber_label {
-	color: white;
-	position: absolute;
-	width: 100%;
-	bottom: 0;
-	left: 0;
-	padding: 6px 0;
-	margin: 0;
-	text-align: center;
-	backdrop-filter: blur(88px);
+  color: white;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 6px 0;
+  margin: 0;
+  text-align: center;
+  backdrop-filter: blur(88px);
+  z-index: 2;
+}
+
+.subscriber_label-top {
+  bottom: unset;
+  top: 0;
 }
 
 .subscriber_notification {
-	background-color: #ffffff99;
-	padding: 4px 8px;
-	margin: 0 10px;
-	text-align: center;
-	position: absolute;
-	backdrop-filter: blur(88px);
+  background-color: #ffffff99;
+  padding: 4px 8px;
+  margin: 0 10px;
+  text-align: center;
+  position: absolute;
+  backdrop-filter: blur(88px);
+  z-index: 1;
+}
+
+.r5-custom-controls {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  bottom: 0;
+  backdrop-filter: blur(30px);
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.r5-custom-controls_bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.r5-custom-controls_scrubber {
+  flex-grow: 2;
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 .show {
-	display: block;
+  display: block;
 }
 
 .unselectable {
-	-webkit-user-select: none; /* Safari */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, supported by most modern browsers */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, supported by most modern browsers */
 }
 
-@media (orientation: landscape) {
-	body {
-		background-color: aqua;
-	}
-	#app {
-		display: block;
-	}
-	.main-video-container {
-		height: 100vh;
-	}
+#tools {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0px;
+  align-items: flex-end;
 }
 
-@media (orientation: portrait) {
-	body {
-		background-color: yellow;
-	}
+#tools > p {
+  margin: 0;
+}
+
+#tools > p#flip {
+  margin-top: 10px;
+}
+
+#embedder {
+  z-index: 2000;
+  cursor: pointer;
 }

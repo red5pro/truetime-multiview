@@ -1,18 +1,41 @@
 {
-	"name": "real-time-multiview",
-	"private": true,
-	"version": "0.1.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"preview": "vite preview"
-	},
-	"devDependencies": {
-		"eslint": "^8.39.0",
-		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-prettier": "^4.2.1",
-		"prettier": "^2.8.8",
-		"vite": "^4.3.2"
-	}
+  "name": "real-time-multiview",
+  "private": false,
+  "description": "Red5 Pro Real Time Multi-View",
+  "version": "0.1.0",
+  "main": "r5pro_rtmv_iframe.js",
+  "author": "Red5Pro",
+  "license": "LICENSE",
+  "keywords": [
+    "Red5 Pro",
+    "red5pro",
+    "webrtc",
+    "webrtc-streaming",
+    "video",
+    "audio",
+    "streaming",
+    "live-streaming",
+    "video-streaming",
+    "audio-streaming",
+    "Real Time Multi-View",
+    "real-time-multi-view"
+  ],
+  "contributors": [
+    {
+      "name": "Todd Anderson",
+      "email": "todd@red5pro.com"
+    }
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
+    "vite": "^4.3.2"
+  }
 }
