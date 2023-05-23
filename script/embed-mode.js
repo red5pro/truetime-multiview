@@ -27,6 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /**
  * Utility for providing embedding options for developers to copy and paste.
  */
+import { doc } from 'prettier'
 import { query, hasHostDefined } from './url-util.js'
 
 const {
@@ -126,15 +127,22 @@ const onServiceChange = (event) => {
 }
 
 const onStreamsParamChange = (event) => {
+  let url = getURL()
   if (streamsCheck.checked) {
-    // 1. Gather child elements of streamsListOptions marked with class 'stream-param'
-    // 2. Create key-value pairs from those elements where the key is class 'stream-param_key' and the value is class 'stream-param_value'
-    // 3. Add them to search params of url
+    document.querySelectorAll('.stream-param').forEach((param) => {
+      const key = param.querySelector('.stream-param_key').value
+      const value = param.querySelector('.stream-param_value').value
+      if (key && key.length > 0 && value && value.length > 0) {
+        url.searchParams.set(decodeURIComponent(key), value)
+      }
+    })
   } else {
-    // 1. Gather child elements of streamsListOptions marked with class 'stream-param'
-    // 2. Create key-value pairs from those elements where the key is class 'stream-param_key' and the value is class 'stream-param_value'
-    // 3. Remove them from search params of url
+    document.querySelectorAll('.stream-param').forEach((param) => {
+      const key = param.querySelector('.stream-param_key').value
+      url.searchParams.delete(decodeURIComponent(key))
+    })
   }
+  code.textContent = code.textContent.replace(srcReg, `src="${url.toString()}"`)
 }
 
 const onStreamsKeyValueParamChange = (event) => {
