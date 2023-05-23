@@ -1,5 +1,4 @@
 const baseConfig = {
-  embedderBase: 'http://127.0.0.1:5173',
   host: window.location.origin,
   app: 'live',
   abr: false,
@@ -32,7 +31,7 @@ class RTMV {
   }
 
   static generateIFrameURL(config) {
-    let url = new URL(config.embedderBase)
+    let url = new URL(config.embedHost)
     url.pathname = '/embed'
     url.searchParams.set('host', config.host)
     url.searchParams.set('app', config.app)
