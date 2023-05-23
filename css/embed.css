@@ -151,3 +151,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 .embed-dialog_close {
   width: fit-content;
 }
+
+@media (orientation: portrait) {
+  #embed-dialog {
+    max-width: calc(100vw - 100px);
+  }
+}
