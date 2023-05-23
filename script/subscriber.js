@@ -26,18 +26,39 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* global red5prosdk */
 // import CustomControls from "./controls";
 
+/**
+ * A Subscriber Class that utilizes the Red5 Pro HTML SDK to subscribe to a stream.
+ * Additionally, it has recognition of being considered the "main" stream, and will
+ * act accordingly to to provide Live Seek capability.
+ *
+ * Live Seek capability requires the inclusion of HLS.js.
+ * https://github.com/video-dev/hls.js/
+ */
+
 import { query } from './url-util.js'
 
 const { debugMode } = query()
 
 const RETRY_DELAY = 2000
+
+// The default liveSeek configuration for Red5 Pro HTML SDK.
+// This is used to enable Live Seek capability.
 const liveSeekConfig = {
   enabled: false,
+  // The baseURL is defaulted to the provided `host` value.
+  // If the VOD files are located elsewhere, this or `fullURL` should be provided.
   baseURL: undefined,
-  fullURL: undefined, // "https://todd-826.red5pro.net/live/streams/five.mp4",
+  // The fullURL is the full path to the VOD files.
+  fullURL: undefined,
+  // The default is to look for HLS.js on the global scope, but you can provide a reference here.
   hlsjsRef: undefined,
+  // By default, Live Seek will generate a HLS video element as a sibling to the live stream video element.
+  // You can override that and define the element to use here.
   hlsElement: undefined,
-  usePlaybackControlsUI: true, //false,
+  // Setting this to true will use the playback controls from the Red5 Pro HTML SDK, which are customizable.
+  // Setting to false you will need to integrate external controls. Use with caution.
+  usePlaybackControlsUI: true,
+  // Options that are passed directly to the HLS.js instance.
   options: {
     debug: debugMode,
     backBufferLength: 0,
@@ -46,10 +67,22 @@ const liveSeekConfig = {
   },
 }
 
+/**
+ * Returns the id of the video element for the provided stream name.
+ * @param {String} streamName
+ * @returns String
+ */
 const getIdFromStreamName = (streamName) => {
   return `${streamName}-video`
 }
 
+/**
+ * Generates the subscriber element for playback.
+ * @param {Obect} configuration
+ * @param {HTMLElement} container The parent node to attach the element.
+ * @param {String} labelText The label to display for the subscriber.
+ * @returns HTMLElement
+ */
 const generateElement = (configuration, container, labelText) => {
   const { streamName } = configuration
   const element = document.createElement('div')
@@ -72,6 +105,11 @@ const generateElement = (configuration, container, labelText) => {
   return element
 }
 
+/**
+ * Generates a generate notification element for the provided message.
+ * @param {String} message
+ * @returns HTMLElement
+ */
 const generateNotification = (message) => {
   const notification = document.createElement('div')
   notification.classList.add('subscriber_notification')
@@ -83,6 +121,7 @@ const generateNotification = (message) => {
   return notification
 }
 
+// List of events that will trigger a reconnection attempt.
 const reconnectEvents = [
   'Connect.Failure',
   'Subscribe.InvalidName',
@@ -90,6 +129,9 @@ const reconnectEvents = [
   'Subscribe.Connection.Closed',
 ]
 
+/**
+ * A Subscriber Class that utilizes the Red5 Pro HTML SDK to subscribe to a stream and support live Stream Switching and Seeking.
+ */
 class Subscriber {
   constructor() {
     this.isMain = false
@@ -108,6 +150,9 @@ class Subscriber {
     this.eventHandler = this.onSubscriberEvent.bind(this)
   }
 
+  /**
+   * Event handler on duration to trigger start load of HLS.js.
+   */
   onHLSDurationLoad() {
     this.hlsElement.removeEventListener('durationchange', this.durationHandler)
     if (this.hlsControl) {
@@ -115,22 +160,32 @@ class Subscriber {
     }
   }
 
+  /**
+   * Event handler for the subscriber as being seekable.
+   * @param {*} param0
+   */
   onHLSInitialized({ hlsControl, hlsElement }) {
     this.hlsControl = hlsControl
     this.hlsElement = hlsElement
     this.hlsElement.addEventListener('durationchange', this.durationHandler)
   }
 
+  /**
+   * General event handler for all subscriber events.
+   * @param {SubscriberEvent} event
+   */
   onSubscriberEvent(event) {
     const { type, data } = event
     const name = this.configuration.label || this.configuration.streamName
     if (type !== 'Subscribe.Time.Update') {
       console.log(`[Subscriber:${name}]`, type, data)
       if (type === 'WebRTC.LiveSeek.Unsupported') {
+        // Notify of unsupported Live Seek.
         if (this.onunsupported) {
           this.onunsupported.apply(null, [this])
         }
       } else if (type === 'Subscribe.Autoplay.Muted') {
+        // Notify of autoplay muted.
         if (this.onautoplaymuted) {
           this.onautoplaymuted.apply(null, [this])
         }
@@ -138,6 +193,7 @@ class Subscriber {
         const { hlsControl, hlsElement } = data
         this.onHLSInitialized({ hlsControl, hlsElement })
       } else if (type === 'WebRTC.DataChannel.Message') {
+        // Stream Switch recognition.
         const { message } = data
         const json = JSON.parse(message.data)
         if (json.data.type === 'result' && json.data.message) {
@@ -146,6 +202,7 @@ class Subscriber {
           }
         }
       } else if (type === 'WebRTC.Subscribe.StreamSwitch') {
+        // Stream Switch recognition.
         this.onSwitchTo()
       } else if (type === 'Subscribe.Playback.Change') {
         if (!this.isMain) {
@@ -159,6 +216,9 @@ class Subscriber {
     }
   }
 
+  /**
+   * Handler for once the stream has been successfully switched to another stream.
+   */
   onSwitchTo() {
     this.configuration = {
       ...this.configuration,
@@ -179,6 +239,12 @@ class Subscriber {
     }
   }
 
+  /**
+   * Initializes the subscriber for playback and optional Live Seek capabilities.
+   * @param {Object} configuration
+   * @param {HTMLElement} container
+   * @returns Subscriber
+   */
   async init(configuration, container) {
     if (this.subscriber) {
       await this.stop()
@@ -213,12 +279,18 @@ class Subscriber {
     return this
   }
 
+  /**
+   * Starts the playback session.
+   */
   async start() {
     if (this.subscriber) {
       await this.subscriber.subscribe()
     }
   }
 
+  /**
+   * Stops the playback session.
+   */
   async stop() {
     if (!this.subscriber) {
       return
@@ -232,6 +304,9 @@ class Subscriber {
     }
   }
 
+  /**
+   * Destroys the playback session.
+   */
   async destroy() {
     this.destroyed = true
     try {
@@ -245,6 +320,10 @@ class Subscriber {
     }
   }
 
+  /**
+   *
+   * @returns Attempts to retry playback.
+   */
   async retry() {
     clearTimeout(this.retryTimeout)
     if (this.destroyed) {
@@ -270,6 +349,10 @@ class Subscriber {
     }, RETRY_DELAY)
   }
 
+  /**
+   * Request to switch to another stream.
+   * @param {Object} configuration
+   */
   switchTo(configuration) {
     const { app, streamName: previousStreamName } = this.configuration
     const regex = new RegExp(`^${app}/`)
@@ -287,6 +370,11 @@ class Subscriber {
     ])
   }
 
+  /**
+   * Defines this Subscriber instance role as considered the main Live Seek stream.
+   * @param {Boolean} enabled Flag to enable Live Seek on this Subscriber instance.
+   * @param {HTMLElement} container
+   */
   setAsMain(enabled, container) {
     this.isMain = enabled
     const video = this.element.querySelector('.subscriber_video')
@@ -317,6 +405,10 @@ class Subscriber {
     }
   }
 
+  /**
+   * Defines this Subscriber instance as available for playback.
+   * @param {Boolean} available
+   */
   setAvailable(available) {
     let notification = this.element.querySelector('.subscriber_notification')
     if (available && notification) {
@@ -330,10 +422,18 @@ class Subscriber {
     }
   }
 
+  /**
+   * Returns the provided configuration in `init` or `switchTo`.
+   * @returns Object
+   */
   getConfiguration() {
     return this.configuration
   }
 
+  /**
+   * Returns flag of this Subscriber instance being considered the main Live Seek stream.
+   * @returns Boolean
+   */
   getIsMain() {
     return this.isMain
   }

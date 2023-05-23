@@ -55,12 +55,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
     </script>
   </head>
   <body>
+    <!-- Main UI-->
     <div id="app">
+      <!-- Holds the Main Live Seek enabled playback stream. -->
       <div class="main-video-container"></div>
+      <!-- Holds the tray of secondary playback streams. -->
       <div class="secondary-video-container">
         <p class="secondary-video-container_more">More ...</p>
       </div>
     </div>
+    <!-- Tools for when demo mode and embed mode are turned on. -->
     <div id="tools">
       <div id="embedder" class="hidden">
         <p>
@@ -71,6 +75,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         <button id="flip-button">Flip</button>
       </p>
     </div>
+    <!-- Embed Mode Dialog -->
     <dialog id="embed-dialog">
       <div class="embed-dialog_container">
         <h3 class="embed-dialog_title">Embed Realtime Multi-Viewer</h3>
@@ -221,6 +226,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         </div>
       </div>
     </dialog>
+    <!-- Error Dialog -->
     <dialog id="error-modal">
       <div class="dialog_container">
         <h3 class="error-modal_title"></h3>
@@ -228,6 +234,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         <button class="error-modal_close">OK</button>
       </div>
     </dialog>
+    <!-- Warning Dialog -->
     <dialog id="warning-modal">
       <div class="dialog_container">
         <h3 class="warning-modal_title"></h3>
@@ -235,6 +242,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         <button class="warning-modal_close">Got It</button>
       </div>
     </dialog>
+    <!-- scripts -->
     <script src="lib/red5pro/red5pro-sdk.min.js"></script>
     <script type="module" src="script/embed-mode.js"></script>
     <script type="module" src="script/demo-mode.js"></script>

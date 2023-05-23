@@ -23,45 +23,65 @@ NONINFRINGEMENT.   IN  NO  EVENT  SHALL INFRARED5, INC. BE LIABLE FOR ANY CLAIM,
 WHETHER IN  AN  ACTION  OF  CONTRACT,  TORT  OR  OTHERWISE,  ARISING  FROM,  OUT  OF  OR  IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-const errorModal = document.getElementById("error-modal");
-const warningModal = document.getElementById("warning-modal");
+/**
+ * Utility for displaying error and warning modal dialogs
+ */
+const errorModal = document.getElementById('error-modal')
+const warningModal = document.getElementById('warning-modal')
 
+/**
+ * Displays the Error modal dialog with the provided title and message.
+ * @param {String} title
+ * @param {String} message
+ * @param {Boolean} fatal Flag to consider error as fatal and therefore not allow closing the modal.
+ */
 export const showError = (title, message, fatal = false) => {
-	const titleElement = errorModal.querySelector(".error-modal_title");
-	const messageElement = errorModal.querySelector(".error-modal_message");
-	const closeElement = errorModal.querySelector(".error-modal_close");
-	titleElement.textContent = title;
-	messageElement.textContent = message;
-	if (fatal && closeElement) {
-		closeElement.classList.add("hidden");
-	} else if (closeElement) {
-		closeElement.addEventListener("click", closeError);
-	}
-	errorModal.showModal();
-};
+  const titleElement = errorModal.querySelector('.error-modal_title')
+  const messageElement = errorModal.querySelector('.error-modal_message')
+  const closeElement = errorModal.querySelector('.error-modal_close')
+  titleElement.textContent = title
+  messageElement.textContent = message
+  if (fatal && closeElement) {
+    closeElement.classList.add('hidden')
+  } else if (closeElement) {
+    closeElement.addEventListener('click', closeError)
+  }
+  errorModal.showModal()
+}
 
+/**
+ * Closes the Error modal dialog.
+ */
 export const closeError = () => {
-	const closeElement = errorModal.querySelector(".error-modal_close");
-	if (closeElement) {
-		closeElement.removeEventListener("click", closeError);
-	}
-	errorModal.close();
-};
+  const closeElement = errorModal.querySelector('.error-modal_close')
+  if (closeElement) {
+    closeElement.removeEventListener('click', closeError)
+  }
+  errorModal.close()
+}
 
+/**
+ * Displays the Warning modal dialog with the provided title and message.
+ * @param {*} title
+ * @param {*} message
+ */
 export const showWarning = (title, message) => {
-	const titleElement = warningModal.querySelector(".warning-modal_title");
-	const messageElement = warningModal.querySelector(".warning-modal_message");
-	const closeElement = warningModal.querySelector(".warning-modal_close");
-	titleElement.textContent = title;
-	messageElement.textContent = message;
-	closeElement.addEventListener("click", closeWarning);
-	warningModal.showModal();
-};
+  const titleElement = warningModal.querySelector('.warning-modal_title')
+  const messageElement = warningModal.querySelector('.warning-modal_message')
+  const closeElement = warningModal.querySelector('.warning-modal_close')
+  titleElement.textContent = title
+  messageElement.textContent = message
+  closeElement.addEventListener('click', closeWarning)
+  warningModal.showModal()
+}
 
+/**
+ * Closes the Warning modal dialog.
+ */
 export const closeWarning = () => {
-	const closeElement = warningModal.querySelector(".warning-modal_close");
-	if (closeElement) {
-		closeElement.removeEventListener("click", closeWarning);
-	}
-	warningModal.close();
-};
+  const closeElement = warningModal.querySelector('.warning-modal_close')
+  if (closeElement) {
+    closeElement.removeEventListener('click', closeWarning)
+  }
+  warningModal.close()
+}

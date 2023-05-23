@@ -42,11 +42,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
       <div id="app"></div>
       <script>
         const searchParams = new URLSearchParams(window.location.search)
+        // embedHost is the host that provides the files required to run an RTMV instance.
         const embedHost = query.has('embedhost')
           ? searchParams.get('embedhost')
           : window.location.origin
 
+        // Invoked once the inject script is loaded.
         function onR5ProReady(R5PRO) {
+          // Create a new Red5 Pro Multi-View instance, loaded in an iframe that replaces the `app` element.
           var app = new R5PRO.RTMV('app', {
             width: '100%',
             height: '100%',
@@ -63,6 +66,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
           })
         }
 
+        // Inject the Red5 Pro Realtime Multi-View script.
         var tag = document.createElement('script')
         tag.src = `${embedHost}/r5pro_rtmv_iframe.js`
         document.body.parentNode.insertBefore(tag, document.body)
