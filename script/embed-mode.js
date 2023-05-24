@@ -33,11 +33,14 @@ import { query, hasHostDefined } from './url-util.js'
 const {
   embedMode,
   host,
+  vodBase,
   app,
   abr,
   scriptURL,
   streams: streamsQueryList,
 } = query()
+
+// TODO: VOD Base
 
 const embedder = document.querySelector('#embedder')
 const dialog = document.querySelector('#embed-dialog')

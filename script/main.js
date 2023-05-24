@@ -35,6 +35,7 @@ const {
   scriptURL,
   host,
   app,
+  vodBase,
   abr,
   abrLow,
   abrHigh,
@@ -58,7 +59,7 @@ console.log(NAME, 'streams', streamsQueryList)
 
 // Base configuration for Subscriber instances.
 const baseConfig = {
-  host,
+  host: host || window.location.hostname,
   app: app || 'live',
 }
 
@@ -139,7 +140,7 @@ const addNewStreams = (newStreams) => {
           ...stream,
           streamName: abr ? `${streamName}_${abrHigh}` : streamName,
           maintainStreamVariant: true,
-          liveSeek: { enabled: true },
+          liveSeek: { enabled: true, baseUrl: vodBase },
         },
         document.querySelector('.main-video-container')
       )
@@ -270,6 +271,8 @@ const onSwitchStream = (toSubscriber, configuration) => {
     label: fromLabel,
     streamName: abr ? `${fromStreamName}_${abrLow}` : fromStreamName,
   })
+
+  window.scrollTo(0, 0)
 }
 
 /**

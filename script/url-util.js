@@ -43,6 +43,7 @@ const paramExclude = [
   'abr',
   'abrlow',
   'abrhigh',
+  'vodbase',
 ]
 
 /**
@@ -86,9 +87,12 @@ export const query = () => {
     : undefined
   let host = searchParams.get('host')
     ? decodeURIComponent(searchParams.get('host'))
-    : window.location.hostname
+    : undefined
   let app = searchParams.get('app')
     ? decodeURIComponent(searchParams.get('app'))
+    : undefined
+  const vodBase = searchParams.get('vodbase')
+    ? decodeURIComponent(searchParams.get('vodbase'))
     : undefined
   let abr = abrOpt ? abrOpt.toLowerCase() === 'true' : false
   let abrLow = abrLowOpt ? parseInt(abrLowOpt, 10) : 3
@@ -109,6 +113,7 @@ export const query = () => {
     scriptURL,
     host,
     app,
+    vodBase,
     abr,
     abrLow,
     abrHigh,
