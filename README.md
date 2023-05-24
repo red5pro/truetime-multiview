@@ -171,6 +171,60 @@ The first defined `<label>=<stream name>` key-value param will be loaded into th
 
 # Embed
 
+The Realtime Mult-View web application also provides the ability to viewers to generate and copy their own `iframe` script to include a version of the Realtime Multi-View player on their own websites!
+
+This is done by defining a URL src on an `iframe` element with all the optionally configured query params discussed previously in this document.
+
 ## Embed options
 
+By defining `embed=true` in the query params, a cog icon will be revealed in the upper-right corner of the Realtime Mult-View web application. By clicking on the cog icon, an **Embed** modal dialog will be opened where users can modify all the available options for hosting their own Realtime Multi-View on their websites.
+
+Once the options are set, they can click `Copy and Close` to copy the `iframe` script to their clipboard and paste it on a page available from their website!
+
 ## RTMV iframe
+
+Included in the root of this repo is the [r5pro_rtmv_iframe.js](r5pro_rtmv_iframe.js) script that can be used to programmatically load a RealTime Mult-View web app in an `iframe` on your website page.
+
+You will need to define a `onR5ProReady` function on the window global scope to be invoke once the script is dynamically loaded. The only argument will be a `R5PRO` object exposing the `RTMV` class declaration. By instantiating a new `RTMV` instance with a configuration whose attributes relate to the query params discussed earlier in this document, tou can progrommatically insert a Realtime Multi-Viewer on your website page:
+
+```html
+<body>
+  <div id="app"></div>
+  <script>
+    const searchParams = new URLSearchParams(window.location.search)
+    // embedHost is the host that provides the files required to run an RTMV instance.
+    const embedHost = query.has('embedhost')
+      ? searchParams.get('embedhost')
+      : window.location.origin
+
+    // Invoked once the inject script is loaded.
+    function onR5ProReady(R5PRO) {
+      // Create a new Red5 Pro Multi-View instance, loaded in an iframe that replaces the `app` element.
+      var app = new R5PRO.RTMV('app', {
+        width: '100%',
+        height: '100%',
+        embedHost,
+        // The following are parameters to define the RTMV experience.
+        host: query.has('host')
+          ? searchParams.get('host')
+          : window.location.hostname,
+        debug: true,
+        abr: true,
+        abrLow: 3,
+        abrHigh: 1,
+        vodBase: undefined,
+        scriptUrl: undefined,
+        streamList: [
+          { label: 'Camera One', streamName: 'stream1' },
+          { label: 'Camera Two', streamName: 'stream2' },
+        ],
+      })
+    }
+
+    // Inject the Red5 Pro Realtime Multi-View script.
+    var tag = document.createElement('script')
+    tag.src = `${embedHost}/r5pro_rtmv_iframe.js`
+    document.body.parentNode.insertBefore(tag, document.body)
+  </script>
+</body>
+```

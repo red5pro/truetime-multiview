@@ -30,6 +30,7 @@ const baseConfig = {
   abrLow: 3,
   abrHigh: 1,
   debug: false,
+  vodBase: undefined,
   scriptUrl: undefined,
   streamList: [], // [{ label: <string>, streamName: <string>}]
 }
@@ -63,6 +64,7 @@ class RTMV {
     url.searchParams.set('abr', config.abr)
     url.searchParams.set('abrlow', config.abrLow)
     url.searchParams.set('abrhigh', config.abrHigh)
+    url.searchParams.set('vodbase', config.vodBase)
     url.searchParams.set('debug', config.debug)
     if (config.url) {
       url.searchParams.set('url', config.scriptUrl)
