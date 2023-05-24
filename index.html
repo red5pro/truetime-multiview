@@ -95,6 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
               <input
                 id="embed-options_host"
                 class="embed-options_option_input"
+                placeholder="Red5 Pro Server host FQDN"
               />
             </div>
             <div class="embed-options_option">
@@ -104,6 +105,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
               <input
                 id="embed-options_app"
                 class="embed-options_option_input"
+                placeholder="App Context Name"
               />
             </div>
             <div class="embed-options_option">
@@ -116,6 +118,41 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
                 <label for="embed-options_abr">ABR:</label>
               </p>
               <span>Variant Levels:</span>
+            </div>
+            <div class="embed-options_option">
+              <p class="embed-options_option_label">
+                <input
+                  type="checkbox"
+                  id="embed-options_vod"
+                  style="margin-right: 10px"
+                />
+                <label for="embed-options_vod">VOD Base:</label>
+              </p>
+              <input
+                id="embed-options_vod_url"
+                class="embed-options_option_input"
+                placeholder="Base URL for VOD files"
+              />
+              <img
+                aria-describedby="vodinfo"
+                src="icons/circle-info-solid.svg"
+                class="embed-options_option_info"
+                width="14px"
+                height="14px"
+              />
+              <p id="vodinfo" role="tooltip">
+                By enabling and providing a VOD base URL, the Realtime
+                Multi-Viewer will use the URL to locate any remotely held VOD
+                files for live seek capability.
+                <br />
+                <br />
+                The provided URL must be the full remote URL to the base URL of
+                VOD storage, including protocol.
+                <br />
+                <br />
+                Example:
+                <strong>https://mynfs.com</strong>
+              </p>
             </div>
             <div id="embed-options_variants">
               High:
@@ -147,7 +184,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
               <input
                 id="embed-options_service_url"
                 class="embed-options_option_input"
-                :
               />
               <img
                 aria-describedby="serviceinfo"
@@ -209,7 +245,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
           <div class="embed-dialog_api">
             <p class="embed-dialog_api_link">
               <strong
-                ><a href="#" class="embed-dialog_link">API Reference</a></strong
+                ><a href="README.md" target="_blank" class="embed-dialog_link"
+                  >API Reference</a
+                ></strong
               >
             </p>
             <p class="embed-dialog_api_terms">
