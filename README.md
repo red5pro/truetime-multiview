@@ -155,13 +155,13 @@ For example: `vodbase=https://myremotenfs.com`. When the app wants to load and h
 Using the Service URL:
 
 ```sh
-http://127.0.0.1:5173/?host=https://myred5pro.com&app=live&url=https://mynfs.com&debug=true
+http://127.0.0.1:5173/?host=myred5pro.com&app=live&url=https://mynfs.com&debug=true
 ```
 
 Using the `<label>=<stream name>` query params:
 
 ```sh
-http://127.0.0.1:5173/?host=https://myred5pro.com&app=live&debug=true&Camera%20One=cameraOne&Camera%20Two=cameraTwo
+http://127.0.0.1:5173/?host=myred5pro.com&app=live&debug=true&Camera%20One=cameraOne&Camera%20Two=cameraTwo
 ```
 
 The first defined `<label>=<stream name>` key-value param will be loaded into the "main feed".
