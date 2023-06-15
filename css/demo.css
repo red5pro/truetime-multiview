@@ -79,6 +79,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 .main-video-container_demo_portait,
 .secondary-video-container_demo_portrait {
   width: 100% !important;
+  overflow: hidden;
 }
 
 .secondary-video-container_demo_portrait > .subscriber {

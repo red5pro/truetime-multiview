@@ -126,46 +126,92 @@ const updateStreamsList = (list) => {
 }
 
 /**
+ * Reorder the "tray" DOM of non-main streams to original order of listing.
+ */
+const reorder = () => {
+  // Find which item out of streamsList is the main stream.
+  const mainSub = subscriberList.find((sub) => sub.getIsMain())
+  if (!mainSub) {
+    return
+  }
+  const mainStreamName = mainSub.getConfiguration().streamName
+  let secondaryOrder = [...streamsList].filter((item) => {
+    return item.streamName !== mainStreamName
+  })
+
+  var secondary = document.querySelector('.secondary-video-container')
+  var secondaryChildren = [...secondary.children]
+  secondaryChildren
+    .sort((streamA, streamB) => {
+      const streamAListing = subscriberList.find((sub) => {
+        return !sub.getIsMain() && sub.getElement() === streamA
+      })
+      const streamBListing = subscriberList.find((sub) => {
+        return !sub.getIsMain() && sub.getElement() === streamB
+      })
+      if (!streamAListing) return 1
+      if (!streamBListing) return -1
+      const streamAName = streamAListing.getConfiguration().streamName
+      const streamBName = streamBListing.getConfiguration().streamName
+      var indexA = streamsList.findIndex(
+        (item) => item.streamName === streamAName
+      )
+      var indexB = streamsList.findIndex(
+        (item) => item.streamName === streamBName
+      )
+      return indexA > indexB ? 1 : -1
+    })
+    .forEach((node) => secondary.appendChild(node))
+}
+
+/**
  * Adds any new streams as Susbcriber instances to the display based on query params and configuration.
  * @param {Array} newStreams [{label: <string>, streamName: <string>}]
  */
-const addNewStreams = (newStreams) => {
-  newStreams.forEach(async (stream, index) => {
-    let sub
-    let { streamName } = stream
-    if (index === 0 && !mainStream) {
-      sub = await new Subscriber().init(
-        {
-          ...baseConfig,
-          ...stream,
-          streamName: abr ? `${streamName}_${abrHigh}` : streamName,
-          maintainStreamVariant: true,
-          liveSeek: { enabled: true, baseUrl: vodBase },
-        },
-        document.querySelector('.main-video-container')
-      )
-      sub.setAsMain(true)
-      sub.onunsupported = onLiveSeekUnsupported
-      sub.onautoplaymuted = onAutoPlayMuted
-      mainStream = sub
-    } else {
-      sub = await new Subscriber().init(
-        {
-          ...baseConfig,
-          ...stream,
-          streamName: abr ? `${streamName}_${abrLow}` : streamName,
-          maintainStreamVariant: true,
-        },
-        document.querySelector('.secondary-video-container')
-      )
-      sub.setAsMain(false)
-      sub.onselect = onSwitchStream
-    }
-    if (sub) {
-      sub.start()
-      subscriberList.push(sub)
-    }
-  })
+const addNewStreams = async (newStreams) => {
+  // const colors = ['green', 'blue', 'yellow']
+  return await Promise.all(
+    newStreams.map(async (stream, index) => {
+      let sub
+      let { streamName } = stream
+      if (index === 0 && !mainStream) {
+        sub = await new Subscriber().init(
+          {
+            ...baseConfig,
+            ...stream,
+            streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+            maintainStreamVariant: true,
+            liveSeek: { enabled: true, baseUrl: vodBase },
+          },
+          document.querySelector('.main-video-container')
+        )
+        sub.setAsMain(true)
+        sub.onunsupported = onLiveSeekUnsupported
+        sub.onautoplaymuted = onAutoPlayMuted
+        sub.onswitch = onSwitchSuccess
+
+        mainStream = sub
+      } else {
+        sub = await new Subscriber().init(
+          {
+            ...baseConfig,
+            ...stream,
+            streamName: abr ? `${streamName}_${abrLow}` : streamName,
+            maintainStreamVariant: true,
+          },
+          document.querySelector('.secondary-video-container')
+          // colors[index - 1]
+        )
+        sub.setAsMain(false)
+        sub.onselect = onSwitchStream
+      }
+      if (sub) {
+        sub.start()
+        subscriberList.push(sub)
+      }
+      return true
+    })
+  )
 }
 
 /**
@@ -223,7 +269,12 @@ const promoteToMain = async (subscriber) => {
   sub.setAsMain(true)
   sub.start()
   subscriberList.push(sub)
+  sub.onunsupported = onLiveSeekUnsupported
+  sub.onautoplaymuted = onAutoPlayMuted
+  sub.onswitch = onSwitchSuccess
+
   mainStream = sub
+  onSwitchSuccess(sub, configuration)
 }
 
 /**
@@ -275,6 +326,12 @@ const onSwitchStream = (toSubscriber, configuration) => {
   window.scrollTo(0, 0)
 }
 
+const onSwitchSuccess = (toSubscriber, configuration) => {
+  requestAnimationFrame(() => {
+    reorder()
+  })
+}
+
 /**
  * Start up the application.
  */
@@ -286,8 +343,9 @@ const start = async () => {
       const list = await getStreamMapFromScriptURL(scriptURL)
       console.log(NAME, list)
       const { newStreams, oldStreams } = updateStreamsList(list)
-      addNewStreams(newStreams)
+      await addNewStreams(newStreams)
       removeOldStreams(oldStreams)
+      reorder()
       let t = setTimeout(() => {
         clearTimeout(t)
         start()
@@ -295,7 +353,8 @@ const start = async () => {
     } else {
       // If no scriptURL, we are using the streams query parameter to load the Map of streams.
       const { newStreams } = updateStreamsList(streamsQueryList)
-      addNewStreams(newStreams)
+      await addNewStreams(newStreams)
+      reorder()
     }
   } catch (error) {
     console.error(error)

@@ -73,7 +73,7 @@ const liveSeekConfig = {
  * @returns String
  */
 const getIdFromStreamName = (streamName) => {
-  return `${streamName}-video`
+  return `video-${streamName}`
 }
 
 /**
@@ -83,10 +83,11 @@ const getIdFromStreamName = (streamName) => {
  * @param {String} labelText The label to display for the subscriber.
  * @returns HTMLElement
  */
-const generateElement = (configuration, container, labelText) => {
+const generateElement = (configuration, container, labelText, color) => {
   const { streamName } = configuration
   const element = document.createElement('div')
   element.classList.add('subscriber')
+  element.style.backgroundColor = color
   const video = document.createElement('video')
   video.classList.add('subscriber_video')
   // video.setAttribute("controls", "controls");
@@ -140,6 +141,7 @@ class Subscriber {
     this.onselect = undefined
     this.onunsupported = undefined
     this.onautoplaymuted = undefined
+    this.onswitch = undefined
     this.controls = undefined
     this.retryTimeout = 0
     this.streamConfigurationToSwitchTo = undefined
@@ -237,6 +239,11 @@ class Subscriber {
       this.subscriber.mute()
       this.subscriber.muteAudio()
     }
+    if (this.onswitch) {
+      requestAnimationFrame(() => {
+        this.onswitch.apply(null, [this, this.getConfiguration()])
+      })
+    }
   }
 
   /**
@@ -245,7 +252,7 @@ class Subscriber {
    * @param {HTMLElement} container
    * @returns Subscriber
    */
-  async init(configuration, container) {
+  async init(configuration, container, color = 'black') {
     if (this.subscriber) {
       await this.stop()
     }
@@ -261,7 +268,8 @@ class Subscriber {
       this.element = generateElement(
         this.configuration,
         container,
-        label || streamName
+        label || streamName,
+        color
       )
     }
     try {
@@ -420,6 +428,14 @@ class Subscriber {
       )
       this.element.appendChild(notification)
     }
+  }
+
+  /**
+   * Returns the DOM element representation for this Subscriber instance.
+   * @returns HTMLElement
+   */
+  getElement() {
+    return this.element
   }
 
   /**
