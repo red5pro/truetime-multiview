@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * Main app entry point for the Red5 Pro Realtime Multi-Viewer.
+ * Main app entry point for the Red5 Pro TrueTime Multi-View.
  */
 /* global red5prosdk */
 import { query } from './url-util.js'
@@ -49,7 +49,7 @@ let subscriberList = [] // [Subscriber]
 let mainStream = undefined
 // If `url` query param is provided, this is the interval used in re-requesting streams from the service url..
 const UPDATE_INTERVAL = 5000
-const NAME = '[RTMV]'
+const NAME = '[TTMV]'
 
 red5prosdk.setLogLevel(debugMode ? 'debug' : 'error')
 console.log(NAME, 'scriptURL', scriptURL)

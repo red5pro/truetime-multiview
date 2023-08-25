@@ -35,15 +35,15 @@ const baseConfig = {
   streamList: [], // [{ label: <string>, streamName: <string>}]
 }
 
-class RTMV {
+class TTMV {
   constructor(element, config) {
     let configuration = { ...baseConfig, ...config }
     let elementToReplace =
       typeof element === 'string' ? document.getElementById(element) : element
     if (elementToReplace && elementToReplace.parentNode) {
       let iframe = document.createElement('iframe')
-      iframe.src = RTMV.generateIFrameURL(configuration)
-      iframe.id = 'r5pro-rtmv-iframe'
+      iframe.src = TTMV.generateIFrameURL(configuration)
+      iframe.id = 'r5pro-ttmv-iframe'
       iframe.width = config.width || '100%'
       iframe.height = config.height || '100%'
       elementToReplace.parentNode.replaceChild(iframe, elementToReplace)
@@ -78,6 +78,6 @@ class RTMV {
 }
 
 window.R5PRO = {
-  RTMV,
+  TTMV,
 }
 window.onR5ProReady(window.R5PRO)

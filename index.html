@@ -26,11 +26,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Red5 Pro RTMV</title>
+    <title>Red5 Pro TrueTime Multi-View</title>
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="lib/red5pro/red5pro-media.css" />
     <!-- SDK controls style override. -->
-    <link rel="stylesheet" href="css/rtmv-controls.css" />
+    <link rel="stylesheet" href="css/ttmv-controls.css" />
     <link rel="stylesheet" href="css/embed.css" />
     <link rel="stylesheet" href="css/demo.css" />
     <script src="//webrtchacks.github.io/adapter/adapter-latest.js"></script>
@@ -40,7 +40,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         console.log('------- USAGE --------')
         console.log('')
         console.log(
-          'This page is designed to establish a Realtime Multi-Viewer webapp using query params. You can provide query params in the URL in order to configure the webapp.'
+          'This page is designed to establish a TrueTime Multi-View webapp using query params. You can provide query params in the URL in order to configure the webapp.'
         )
         console.log('The following query params are available:')
         console.log(
@@ -76,7 +76,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
     <!-- Embed Mode Dialog -->
     <dialog id="embed-dialog">
       <div class="embed-dialog_container">
-        <h3 class="embed-dialog_title">Embed Realtime Multi-Viewer</h3>
+        <h3 class="embed-dialog_title">Embed TrueTime Multi-View</h3>
         <div class="embed-dialog_options">
           <p class="embed-dialog_message">
             Copy and paste the following code to embed this video on your
@@ -157,8 +157,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
                 height="14px"
               />
               <p id="vodinfo" role="tooltip">
-                By enabling and providing a VOD base URL, the Realtime
-                Multi-Viewer will use the URL to locate any remotely held VOD
+                By enabling and providing a VOD base URL, the TrueTime
+                Multi-View will use the URL to locate any remotely held VOD
                 files for live seek capability.
                 <br />
                 <br />
@@ -191,9 +191,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
                 height="14px"
               />
               <p id="serviceinfo" role="tooltip">
-                By enabling and providing a service URL, the Realtime
-                Multi-Viewer will use the service to request a list of available
-                streams to load and playback.
+                By enabling and providing a service URL, the TrueTime Multi-View
+                will use the service to request a list of available streams to
+                load and playback.
                 <br />
                 <br />
                 The provided URL must be the full remote URL to the service,
@@ -224,7 +224,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
                 style="position: absolute; margin-left: 0px; right: 14px"
               />
               <p id="streamsinfo" role="tooltip">
-                By providing a list of streams, the Realtime Multi-Viewer will
+                By providing a list of streams, the TrueTime Multi-View will
                 parse the added query params and load the streams for playback.
                 <br />
                 <br />

@@ -202,7 +202,11 @@ const onStreamsKeyValueParamChange = (event) => {
   code.textContent = code.textContent.replace(srcReg, `src="${url.toString()}"`)
 }
 
-const onAddStreamParam = (keyValue = undefined, valueValue = undefined) => {
+const onAddStreamParam = (
+  optionalEvent = null,
+  keyValue = undefined,
+  valueValue = undefined
+) => {
   const param = document.createElement('div')
   param.classList.add('stream-param')
   const key = document.createElement('input')
@@ -266,7 +270,7 @@ const show = () => {
   if (streamsQueryList) {
     streamsQueryList.forEach((stream) => {
       const { label, streamName } = stream
-      onAddStreamParam(encodeURIComponent(label), streamName)
+      onAddStreamParam(null, encodeURIComponent(label), streamName)
     })
     streamsCheck.checked = true
   }
@@ -282,9 +286,7 @@ const show = () => {
   serviceCheck.addEventListener('change', onServiceChange)
   streamsCheck.addEventListener('change', onStreamsParamChange)
 
-  addStreamButton.addEventListener('click', () => {
-    onAddStreamParam()
-  })
+  addStreamButton.addEventListener('click', onAddStreamParam)
 
   const closeElement = dialog.querySelector('.embed-dialog_close')
   if (closeElement) {

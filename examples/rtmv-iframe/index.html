@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Red5 Pro RTMV</title>
+    <title>Red5 Pro TTMV</title>
     <style>
       html,
       body,
@@ -42,7 +42,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
       <div id="app"></div>
       <script>
         const searchParams = new URLSearchParams(window.location.search)
-        // embedHost is the host that provides the files required to run an RTMV instance.
+        // embedHost is the host that provides the files required to run an TTMV instance.
         const embedHost = query.has('embedhost')
           ? searchParams.get('embedhost')
           : window.location.origin
@@ -50,11 +50,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         // Invoked once the inject script is loaded.
         function onR5ProReady(R5PRO) {
           // Create a new Red5 Pro Multi-View instance, loaded in an iframe that replaces the `app` element.
-          var app = new R5PRO.RTMV('app', {
+          var app = new R5PRO.TTMV('app', {
             width: '100%',
             height: '100%',
             embedHost,
-            // The following are parameters to define the RTMV experience.
+            // The following are parameters to define the TTMV experience.
             host: query.has('host')
               ? searchParams.get('host')
               : window.location.hostname,
@@ -67,9 +67,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
           })
         }
 
-        // Inject the Red5 Pro Realtime Multi-View script.
+        // Inject the Red5 Pro TrueTime Multi-View script.
         var tag = document.createElement('script')
-        tag.src = `${embedHost}/r5pro_rtmv_iframe.js`
+        tag.src = `${embedHost}/r5pro_ttmv_iframe.js`
         document.body.parentNode.insertBefore(tag, document.body)
       </script>
     </body>
