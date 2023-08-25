@@ -80,10 +80,12 @@ const getStreamMapFromScriptURL = async (scriptURL) => {
   if (Object.prototype.toString.call(json) === '[object Array]') {
     json.forEach((item) => {
       if (typeof item === 'object' && item.name) {
-        list.push({
-          label: item.label || item.name,
-          streamName: item.name,
-        })
+        if (!item.type || (item.type && item.type !== 'origin')) {
+          list.push({
+            label: item.label || item.name,
+            streamName: item.name,
+          })
+        }
       } else if (typeof item === 'string') {
         list.push({ label: item, streamName: item })
       }
