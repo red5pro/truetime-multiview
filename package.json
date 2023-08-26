@@ -1,9 +1,9 @@
 {
-  "name": "real-time-multiview",
+  "name": "truetime-multiview",
   "private": false,
-  "description": "Red5 Pro Real Time Multi-View",
+  "description": "Red5 Pro TrueTime Multi-View",
   "version": "0.1.0",
-  "main": "r5pro_rtmv_iframe.js",
+  "main": "r5pro_ttmv_iframe.js",
   "author": "Red5Pro",
   "license": "LICENSE",
   "keywords": [
@@ -17,8 +17,8 @@
     "live-streaming",
     "video-streaming",
     "audio-streaming",
-    "Real Time Multi-View",
-    "real-time-multi-view"
+    "TrueTime Multi-View",
+    "truetime-multi-view"
   ],
   "contributors": [
     {

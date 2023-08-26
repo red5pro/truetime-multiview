@@ -43,6 +43,7 @@ const paramExclude = [
   'abr',
   'abrlow',
   'abrhigh',
+  'vod',
   'vodbase',
 ]
 
@@ -60,6 +61,7 @@ export const hasHostDefined = () => {
  * The following query parameters are supported:
  * - host: The Red5 Pro Server hostname on which the live streams are located.
  * - app: The app context on the Red5 Pro Server on which the live streams are located.
+ * - vod: The optional flag indicating whether or not to display the Live VOD option.
  * - url: The optional service URL that will return a list of streams to load.
  * - abr: The optional flag indicating whether or not the streams are delivered using adaptive bitrate.
  * - abrlow: The optional value indicating the lowest variant level to use for adaptive bitrate. Default is 3.
@@ -79,6 +81,7 @@ export const query = () => {
   const abrLowOpt = searchParams.get('abrlow')
   const abrHighOpt = searchParams.get('abrhigh')
   const smOpt = searchParams.get('sm')
+  const vodOpt = searchParams.get('vod')
   const demoOpt = searchParams.get('demo')
   const debugOpt = searchParams.get('debug')
   const embedOpt = searchParams.get('embed')
@@ -98,6 +101,7 @@ export const query = () => {
   let abrLow = abrLowOpt ? parseInt(abrLowOpt, 10) : 3
   let abrHigh = abrHighOpt ? parseInt(abrHighOpt, 10) : 1
   let streamManager = smOpt ? smOpt.toLowerCase() === 'true' : false
+  let vod = vodOpt ? vodOpt.toLowerCase() === 'true' : true
   let demoMode = demoOpt ? demoOpt.toLowerCase() === 'true' : false
   let debugMode = debugOpt ? debugOpt.toLowerCase() === 'true' : false
   let embedMode = embedOpt ? embedOpt.toLowerCase() === 'true' : false
@@ -113,6 +117,7 @@ export const query = () => {
     scriptURL,
     host,
     app,
+    vod,
     vodBase,
     abr,
     abrLow,
