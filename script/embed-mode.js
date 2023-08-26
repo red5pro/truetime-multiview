@@ -27,7 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /**
  * Utility for providing embedding options for developers to copy and paste.
  */
-import { doc } from 'prettier'
+// import { doc } from 'prettier'
 import { query, hasHostDefined } from './url-util.js'
 
 const {
