@@ -35,6 +35,7 @@ const {
   scriptURL,
   host,
   app,
+  vod,
   vodBase,
   abr,
   abrLow,
@@ -183,7 +184,7 @@ const addNewStreams = async (newStreams) => {
             ...stream,
             streamName: abr ? `${streamName}_${abrHigh}` : streamName,
             maintainStreamVariant: true,
-            liveSeek: { enabled: true, baseUrl: vodBase },
+            liveSeek: { enabled: vod, baseUrl: vodBase },
           },
           document.querySelector('.main-video-container')
         )
@@ -264,7 +265,7 @@ const promoteToMain = async (subscriber) => {
       ...configuration,
       streamName: abr ? `${streamName}_${abrHigh}` : streamName,
       maintainStreamVariant: true,
-      liveSeek: { enabled: true },
+      liveSeek: { enabled: vod },
     },
     document.querySelector('.main-video-container')
   )

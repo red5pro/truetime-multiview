@@ -1,6 +1,6 @@
 # Red5 TrueTime Multi-View
 
-The Red5 Pro TrueTime Multi-View is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has live seek integration.
+The Red5 Pro TrueTime Multi-View is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has _optional_ live seek integration.
 
 Additionaly, it provides embedding options to easily add a TrueTime Multi-View to your own website!
 
@@ -110,6 +110,7 @@ The following query parameters are available. Though _optional_, it is recommend
 | `host`     | `window.location.hostname` | The Red5 Pro Server endpoint that hosts the live streams. _The FQDN_                                                                                                                                                                                                                                                     |
 | `app`      |           `live`           | The webapp context on which the live streams reside.                                                                                                                                                                                                                                                                     |
 | `url`      |        `undefined`         | The optional service URL (including protocol and possible port) that `GET` requests will be made on to retrieve the current list of live streams. _See [Service URL Response](#service-url-response) for more info._                                                                                                     |
+| `vod`      |           `true`           | The option to allow for live seek controls of the main stream. _See [Enabling Live Seek on Server](#enable-live-seek-on-server) for more info._                                                                                                                                                                          |
 | `abr`      |          `false`           | Flag to notify the application that the server uses Adaptive Bitrate control to provide different variants of the live streams.                                                                                                                                                                                          |
 | `abrlow`   |            `3`             | When `abr=true`, the specified ladder suffix/index at which the lowest ABR variant resides. This is used in accessing the live stream by name. All the non "main feed" subscribe will then load and playback the lowest ABR variant.                                                                                     |
 | `abrhigh`  |            `1`             | When `abr=true`, the specified ladder suffic/index at which the highest ABR variant resides. This is used in accessing the live stream by name. Only the "main feed" playback will load the highest ABR variant.                                                                                                         |
@@ -141,6 +142,20 @@ By default, you can access a simple list of available streams from [https://your
 Likewise, if utilizing a Stream Manager, you can provide a `url` similar to [https://yourred5pro.com/streammanager/api/4.0/event/list](https://yourred5pro.com/streammanager/api/4.0/event/list) that will return a payload with acceptable structure.
 
 > If using the `url` query param, the application will make a recurring request every 5 seconds for an updated stream list.
+
+## Enabling Live Seek on Server
+
+In order to take advantage of the live seek capabilities of the main feed stream, you will need to set the following attributes in the `conf/hlsconfig.xml` configuration and restart your server:
+
+```
+<property name="outputFormat" value="FMP4"/>
+```
+
+```
+<property name="dvrPlaylist" value="true"/>
+```
+
+This will instruct the server to serialize the full length of the stream to local or remote disk (see following section) in order to provide full live seek of the playback stream. Without these set, on an Origin server, you may see that playback has a finite range of seek as the server does reserve some HLS segment history for each stream.
 
 ## VOD Base URL
 

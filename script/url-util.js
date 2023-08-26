@@ -43,6 +43,7 @@ const paramExclude = [
   'abr',
   'abrlow',
   'abrhigh',
+  'vod',
   'vodbase',
 ]
 
@@ -79,6 +80,7 @@ export const query = () => {
   const abrLowOpt = searchParams.get('abrlow')
   const abrHighOpt = searchParams.get('abrhigh')
   const smOpt = searchParams.get('sm')
+  const vodOpt = searchParams.get('vod')
   const demoOpt = searchParams.get('demo')
   const debugOpt = searchParams.get('debug')
   const embedOpt = searchParams.get('embed')
@@ -98,6 +100,7 @@ export const query = () => {
   let abrLow = abrLowOpt ? parseInt(abrLowOpt, 10) : 3
   let abrHigh = abrHighOpt ? parseInt(abrHighOpt, 10) : 1
   let streamManager = smOpt ? smOpt.toLowerCase() === 'true' : false
+  let vod = vodOpt ? vodOpt.toLowerCase() === 'true' : true
   let demoMode = demoOpt ? demoOpt.toLowerCase() === 'true' : false
   let debugMode = debugOpt ? debugOpt.toLowerCase() === 'true' : false
   let embedMode = embedOpt ? embedOpt.toLowerCase() === 'true' : false
@@ -113,6 +116,7 @@ export const query = () => {
     scriptURL,
     host,
     app,
+    vod,
     vodBase,
     abr,
     abrLow,
