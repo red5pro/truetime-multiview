@@ -2,7 +2,7 @@
 
 The Red5 Pro TrueTime Multi-View is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has _optional_ live seek integration.
 
-Additionaly, it provides embedding options to easily add a TrueTime Multi-View to your own website!
+Additionally, it provides embedding options to easily add a TrueTime Multi-View to your own website!
 
 # Project Structure
 
