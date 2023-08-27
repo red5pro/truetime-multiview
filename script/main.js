@@ -365,4 +365,18 @@ const start = async () => {
   }
 }
 
+/**
+ * Shutdown all subscribers.
+ */
+const shutdown = () => {
+  while (subscriberList.length > 0) {
+    const subscriber = subscriberList.shift()
+    subscriber.destroy()
+  }
+}
+
+// Global Event handlers.
+window.addEventListener('pagehide', shutdown)
+window.addEventListener('beforeunload', shutdown)
+
 start()
