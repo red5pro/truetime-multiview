@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .app_demo {
-  background-color: gray;
+  background-color: var(--color-gray);
   box-sizing: border-box;
   box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
   border-radius: 20px;
@@ -62,7 +62,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .secondary-video-container_demo {
-  background-color: black;
+  background-color: var(--color-black);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }

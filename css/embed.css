@@ -32,7 +32,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 .embed-dialog_container {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: var(--color-offwhite);
   color: black;
 }
 
@@ -43,11 +43,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .embed-dialog_link {
   /* text-decoration: none; */
-  color: rgb(201, 54, 49);
+  color: var(--color-red5);
 }
 
 .embed-dialog_container_title {
-  background-color: #fff;
+  background-color: var(--color-offwhite);
 }
 
 .embed-dialog_options {
