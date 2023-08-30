@@ -43,9 +43,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
       <script>
         const searchParams = new URLSearchParams(window.location.search)
         // embedHost is the host that provides the files required to run an TTMV instance.
-        const embedHost = query.has('embedhost')
+        const embedHost = searchParams.has('embedhost')
           ? searchParams.get('embedhost')
-          : window.location.origin
+          : 'https://red5pro.github.io/truetime-multiview'
 
         // Invoked once the inject script is loaded.
         function onR5ProReady(R5PRO) {
@@ -55,7 +55,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
             height: '100%',
             embedHost,
             // The following are parameters to define the TTMV experience.
-            host: query.has('host')
+            host: searchParams.has('host')
               ? searchParams.get('host')
               : window.location.hostname,
             debug: true,

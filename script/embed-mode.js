@@ -60,6 +60,9 @@ const streamsListOptions = dialog.querySelector('#embed-options_stream-list')
 
 const srcReg = /src="([^"]*)"/
 const HOST_INSERT = 'YOUR_RED5PRO_SERVER'
+const HOSTED_PROTOCOL = 'https:'
+const HOSTED_PAGE = 'red5pro.github.io'
+const HOSTED_PATH = 'truetime-multiview'
 
 const getURL = () => {
   const src = srcReg.exec(code.textContent)[1]
@@ -249,14 +252,14 @@ const onRemoveStreamParam = (event) => {
   code.textContent = code.textContent.replace(srcReg, `src="${url.toString()}"`)
 }
 
-const show = () => {
+const show = (location, pathname) => {
   const url = hasHostDefined()
-    ? window.location.href.replace(host, HOST_INSERT)
-    : `${window.location.href}&host=${HOST_INSERT}`
+    ? location.replace(host, HOST_INSERT)
+    : `${location}&host=${HOST_INSERT}`
   let insert = new URL(url)
   insert.searchParams.delete('demo')
   insert.searchParams.delete('embed')
-  insert.pathname = '/embed'
+  insert.pathname = pathname
   code.textContent = `<iframe src="${insert.toString()}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>`
 
   hostField.value = new URLSearchParams(insert.search).get('host') || ''
@@ -328,6 +331,10 @@ const close = async () => {
 if (embedMode) {
   embedder.classList.remove('hidden')
   embedder.addEventListener('click', () => {
-    show()
+    const location = window.location
+    const locationStr = window.location.toString()
+    let url = locationStr.replace(location.protocol, HOSTED_PROTOCOL)
+    url = url.replace(location.host, HOSTED_PAGE)
+    show(url, HOSTED_PATH)
   })
 }

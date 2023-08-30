@@ -213,9 +213,10 @@ You will need to define a `onR5ProReady` function on the window global scope to 
   <script>
     const searchParams = new URLSearchParams(window.location.search)
     // embedHost is the host that provides the files required to run an TTMV instance.
-    const embedHost = query.has('embedhost')
+    // By default, the github pages of this repo can provide the host pages.
+    const embedHost = searchParams.has('embedhost')
       ? searchParams.get('embedhost')
-      : window.location.origin
+      : 'http://red5pro.github.io/truetime-multiview'
 
     // Invoked once the inject script is loaded.
     function onR5ProReady(R5PRO) {
@@ -225,7 +226,7 @@ You will need to define a `onR5ProReady` function on the window global scope to 
         height: '100%',
         embedHost,
         // The following are parameters to define the TTMV experience.
-        host: query.has('host')
+        host: searchParams.has('host')
           ? searchParams.get('host')
           : window.location.hostname,
         debug: true,
