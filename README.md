@@ -1,3 +1,7 @@
+<h3 align="center">
+  <img src="assets/Red5_Truetime.png" alt="Red5 TrueTime" />
+</h3>
+
 # Red5 TrueTime MultiView For Fans
 
 The Red5 Pro TrueTime MultiView is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has _optional_ live seek integration.
