@@ -49,7 +49,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
 
         // Invoked once the inject script is loaded.
         function onR5ProReady(R5PRO) {
-          // Create a new Red5 Pro Multi-View instance, loaded in an iframe that replaces the `app` element.
+          // Create a new Red5 Pro MultiView instance, loaded in an iframe that replaces the `app` element.
           var app = new R5PRO.TTMV('app', {
             width: '100%',
             height: '100%',
@@ -67,7 +67,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
           })
         }
 
-        // Inject the Red5 Pro TrueTime Multi-View script.
+        // Inject the Red5 Pro TrueTime MultiView script.
         var tag = document.createElement('script')
         tag.src = `${embedHost}/r5pro_ttmv_iframe.js`
         document.body.parentNode.insertBefore(tag, document.body)

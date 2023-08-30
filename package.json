@@ -1,7 +1,7 @@
 {
   "name": "truetime-multiview",
   "private": false,
-  "description": "Red5 Pro TrueTime Multi-View",
+  "description": "Red5 Pro TrueTime MultiView",
   "version": "0.1.0",
   "main": "r5pro_ttmv_iframe.js",
   "author": "Red5Pro",
@@ -17,8 +17,8 @@
     "live-streaming",
     "video-streaming",
     "audio-streaming",
-    "TrueTime Multi-View",
-    "truetime-multi-view"
+    "TrueTime MultiView",
+    "truetime-multiview"
   ],
   "contributors": [
     {

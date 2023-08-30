@@ -25,7 +25,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
- * Main app entry point for the Red5 Pro TrueTime Multi-View.
+ * Main app entry point for the Red5 Pro TrueTime MultiView.
  */
 /* global red5prosdk */
 import { query } from './url-util.js'
@@ -379,4 +379,5 @@ const shutdown = () => {
 window.addEventListener('pagehide', shutdown)
 window.addEventListener('beforeunload', shutdown)
 
+// Start the application.
 start()
