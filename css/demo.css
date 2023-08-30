@@ -38,7 +38,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 }
 
 .app_demo {
-  background-color: var(--color-gray);
+  background-color: var(--color-black);
   box-sizing: border-box;
   box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
   border-radius: 20px;
@@ -53,13 +53,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   padding: 10px 0;
 }
 
-.main-video-container_demo > .subscriber,
+/* .main-video-container_demo > .subscriber,
 .main-video-container_demo > .subscriber > .red5pro-media-container,
 .main-video-container_demo > .subscriber > .red5pro-media-container > video,
 .main-video-container_demo > .subscriber > .subscriber_label {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-}
+} */
 
 .secondary-video-container_demo {
   background-color: var(--color-black);
@@ -74,6 +74,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   max-width: 420px;
   height: calc(100vh - 40px) !important;
   margin: 20px;
+}
+
+.main-video-container_demo_portait {
+  border-radius: unset !important;
 }
 
 .main-video-container_demo_portait,
@@ -102,18 +106,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   z-index: 1;
 }
 
-.main-video-container_demo_landscape > .subscriber,
-.main-video-container_demo_landscape > .subscriber > .red5pro-media-container,
-.main-video-container_demo_landscape
-  > .subscriber
-  > .red5pro-media-container
-  > .red5pro-media-control-bar,
-.main-video-container_demo_landscape
-  > .subscriber
-  > .red5pro-media-container
-  > video {
+.main-video-container_demo_landscape > .subscriber {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  overflow: hidden;
 }
 
 .secondary-video-container_demo_landscape {
@@ -131,7 +127,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 .secondary-video-container_demo_landscape > .subscriber {
   height: 100% !important;
   width: unset !important;
-  border-radius: 20px;
+  border-radius: 10px;
+  overflow: hidden;
   box-shadow: -0.5rem 0.5rem 0.5rem #00000066;
   z-index: 10;
 }

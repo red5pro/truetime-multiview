@@ -252,6 +252,7 @@ dialog > .dialog_container > h3 {
 #logo-holder {
   width: 100%;
   padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
 }
 
