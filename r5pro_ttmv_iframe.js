@@ -58,14 +58,15 @@ class TTMV {
 
   static generateIFrameURL(config) {
     let url = new URL(config.embedHost)
-    url.pathname = '/embed'
     url.searchParams.set('host', config.host)
     url.searchParams.set('app', config.app)
     url.searchParams.set('abr', config.abr)
     url.searchParams.set('abrlow', config.abrLow)
     url.searchParams.set('abrhigh', config.abrHigh)
-    url.searchParams.set('vodbase', config.vodBase)
     url.searchParams.set('debug', config.debug)
+    if (config.vodBase) {
+      url.searchParams.set('vodbase', config.vodBase)
+    }
     if (config.url) {
       url.searchParams.set('url', config.scriptUrl)
     } else if (config.streamList && config.streamList.length > 0) {
