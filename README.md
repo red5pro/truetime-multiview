@@ -1,5 +1,5 @@
 <h3 align="center">
-  <img src="assets/Red5_Truetime.png" alt="Red5 TrueTime" />
+  <img src="assets/Red5_Truetime_black.png" alt="Red5 TrueTime" />
 </h3>
 
 # Red5 TrueTime MultiView For Fans
