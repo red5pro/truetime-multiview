@@ -191,19 +191,19 @@ The first defined `<label>=<stream name>` key-value param will be loaded into th
 
 # Embed
 
-The TrueTime Mult-View web application also provides the ability to viewers to generate and copy their own `iframe` script to include a version of the TrueTime MultiView player on their own websites!
+The TrueTime MultiView web application also provides the ability to viewers to generate and copy their own `iframe` script to include a version of the TrueTime MultiView player on their own websites!
 
 This is done by defining a URL src on an `iframe` element with all the optionally configured query params discussed previously in this document.
 
 ## Embed options
 
-By defining `embed=true` in the query params, a cog icon will be revealed in the upper-right corner of the TrueTime Mult-View web application. By clicking on the cog icon, an **Embed** modal dialog will be opened where users can modify all the available options for hosting their own TrueTime MultiView on their websites.
+By defining `embed=true` in the query params, a cog icon will be revealed in the upper-right corner of the TrueTime MultiView web application. By clicking on the cog icon, an **Embed** modal dialog will be opened where users can modify all the available options for hosting their own TrueTime MultiView on their websites.
 
 Once the options are set, they can click `Copy and Close` to copy the `iframe` script to their clipboard and paste it on a page available from their website!
 
 ## TTMV iframe
 
-Included in the root of this repo is the [r5pro_ttmv_iframe.js](r5pro_ttmv_iframe.js) script that can be used to programmatically load a TrueTime Mult-View web app in an `iframe` on your website page.
+Included in the root of this repo is the [r5pro_ttmv_iframe.js](r5pro_ttmv_iframe.js) script that can be used to programmatically load a TrueTime MultiView web app in an `iframe` on your website page.
 
 You will need to define a `onR5ProReady` function on the window global scope to be invoke once the script is dynamically loaded. The only argument will be a `R5PRO` object exposing the `TTMV` class declaration. By instantiating a new `TTMV` instance with a configuration whose attributes relate to the query params discussed earlier in this document, tou can progrommatically insert a TrueTime MultiView on your website page:
 
@@ -249,3 +249,7 @@ You will need to define a `onR5ProReady` function on the window global scope to 
   </script>
 </body>
 ```
+
+The `embedHost` parameter points to the remote address where the frontend files for this web client are hosted. By default, we point to the generate GitHub pages for this repository.
+
+**To host your own TrueTime MultiView, just clone this repo and change the look-and-feel and branding to your desire!**
