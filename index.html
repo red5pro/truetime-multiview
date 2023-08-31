@@ -90,8 +90,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
             website.
           </p>
           <textarea class="embed-dialog_code" readonly></textarea>
+          <div class="embed-dialog_controls">
+            <button class="embed-dialog_close">Copy & Close</button>
+          </div>
           <hr style="width: 100%" />
-          <p><strong>Embed Options</strong></p>
+          <p>
+            <strong>Embed Options</strong>
+          </p>
           <div class="embed-options">
             <div class="embed-options_option">
               <label class="embed-options_option_label" for="embed-options_host"
@@ -144,12 +149,53 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
             </div>
             <div class="embed-options_option">
               <p class="embed-options_option_label">
+                <label for="embed-options_vod">Enable Live VOD:</label>
+              </p>
+              <input
+                id="embed-options_vod"
+                type="checkbox"
+                class="embed-options_option_input"
+                style="flex-grow: 0 !important"
+              />
+              <div style="flex-grow: 1; text-align: right">
+                <img
+                  aria-describedby="vod"
+                  src="icons/circle-info-solid.svg"
+                  class="embed-options_option_info"
+                  width="14px"
+                  height="14px"
+                />
+                <p id="vod" role="tooltip" style="text-align: left">
+                  By default, the TrueTime MultiView allows for live seek of the
+                  main stream.
+                  <br />
+                  <br />
+                  When enabled, live seek controls will be provided for the main
+                  stream to allow you to seek back and forth in time on a live
+                  stream.
+                  <br />
+                  <br />
+                  Note:
+                  <strong
+                    >Live seek requires some server configuration changes.
+                    Please refer to the
+                    <a
+                      href="https://github.com/red5pro/truetime-multiview#enabling-live-seek-on-server"
+                      target="_blank"
+                      >README</a
+                    >.</strong
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="embed-options_option">
+              <p class="embed-options_option_label">
                 <input
                   type="checkbox"
-                  id="embed-options_vod"
+                  id="embed-options_vod_base"
                   style="margin-right: 10px"
                 />
-                <label for="embed-options_vod">VOD Base:</label>
+                <label for="embed-options_vod_base">VOD Base:</label>
               </p>
               <input
                 id="embed-options_vod_url"

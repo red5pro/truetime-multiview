@@ -33,6 +33,7 @@ import { query, hasHostDefined } from './url-util.js'
 const {
   embedMode,
   host,
+  vod,
   vodBase,
   app,
   abr,
@@ -51,6 +52,7 @@ const abrCheck = dialog.querySelector('#embed-options_abr')
 const abrLow = dialog.querySelector('#embed-options_abrlow')
 const abrHigh = dialog.querySelector('#embed-options_abrhigh')
 const vodCheck = dialog.querySelector('#embed-options_vod')
+const vodBaseCheck = dialog.querySelector('#embed-options_vod_base')
 const vodField = dialog.querySelector('#embed-options_vod_url')
 const serviceCheck = dialog.querySelector('#embed-options_service')
 const serviceField = dialog.querySelector('#embed-options_service_url')
@@ -111,7 +113,24 @@ const onAbrChange = (event) => {
 }
 
 const onVODChange = (event) => {
+  let url = getURL()
   if (vodCheck.checked) {
+    url.searchParams.set('vod', 'true')
+    code.textContent = code.textContent.replace(
+      srcReg,
+      `src="${url.toString()}"`
+    )
+  } else {
+    url.searchParams.set('vod', 'false')
+    code.textContent = code.textContent.replace(
+      srcReg,
+      `src="${url.toString()}"`
+    )
+  }
+}
+
+const onVODBaseChange = (event) => {
+  if (vodBaseCheck.checked) {
     const vodBase = vodField.value
     const vodAvailable = vodBase && vodBase.length > 0
     let url = getURL()
@@ -267,7 +286,8 @@ const show = (location, pathname) => {
   serviceField.value = scriptURL || ''
   serviceCheck.checked = scriptURL
   abrCheck.checked = abr
-  vodCheck.checked = vodBase
+  vodCheck.checked = vod
+  vodBaseCheck.checked = vodBase
   vodField.value = vodBase || ''
 
   if (streamsQueryList) {
@@ -284,17 +304,18 @@ const show = (location, pathname) => {
   abrLow.addEventListener('change', onAbrChange)
   abrHigh.addEventListener('change', onAbrChange)
   vodCheck.addEventListener('change', onVODChange)
-  vodField.addEventListener('change', onVODChange)
+  vodBaseCheck.addEventListener('change', onVODBaseChange)
+  vodField.addEventListener('change', onVODBaseChange)
   serviceField.addEventListener('change', onServiceChange)
   serviceCheck.addEventListener('change', onServiceChange)
   streamsCheck.addEventListener('change', onStreamsParamChange)
 
   addStreamButton.addEventListener('click', onAddStreamParam)
 
-  const closeElement = dialog.querySelector('.embed-dialog_close')
-  if (closeElement) {
+  const closeElements = dialog.querySelectorAll('.embed-dialog_close')
+  closeElements.forEach((closeElement) => {
     closeElement.addEventListener('click', close)
-  }
+  })
   dialog.showModal()
 }
 
@@ -307,7 +328,8 @@ const close = async () => {
   abrLow.removeEventListener('change', onAbrChange)
   abrHigh.removeEventListener('change', onAbrChange)
   vodCheck.removeEventListener('change', onVODChange)
-  vodField.removeEventListener('change', onVODChange)
+  vodBaseCheck.removeEventListener('change', onVODBaseChange)
+  vodField.removeEventListener('change', onVODBaseChange)
   serviceCheck.removeEventListener('change', onServiceChange)
   serviceField.removeEventListener('change', onServiceChange)
   serviceField.removeEventListener('change', onServiceChange)
