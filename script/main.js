@@ -184,7 +184,7 @@ const addNewStreams = async (newStreams) => {
             ...stream,
             streamName: abr ? `${streamName}_${abrHigh}` : streamName,
             maintainStreamVariant: true,
-            liveSeek: { enabled: vod, baseUrl: vodBase },
+            liveSeek: { enabled: vod, baseURL: vodBase },
           },
           document.querySelector('.main-video-container')
         )
