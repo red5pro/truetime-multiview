@@ -26,7 +26,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* The style rules for when the application is in Demo Mode. */
 .body_demo {
-  background-color: antiquewhite;
+  background-color: var(--color-gray);
   display: flex;
   height: 100vh;
   align-items: center;
