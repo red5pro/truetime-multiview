@@ -337,6 +337,10 @@ const close = async () => {
 
   addStreamButton.removeEventListener('click', () => onAddStreamParam)
 
+  while (streamsListOptions.childNodes.length > 0) {
+    streamsListOptions.removeChild(streamsListOptions.childNodes[0])
+  }
+
   try {
     await navigator.clipboard.writeText(code.value)
     console.log(code.value)
