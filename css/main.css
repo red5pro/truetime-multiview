@@ -159,6 +159,10 @@ dialog > .dialog_container > h3 {
 .subscriber_video {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+}
+
+.secondary-video-container > .subscriber > .subscriber_video {
   object-fit: cover;
 }
 
