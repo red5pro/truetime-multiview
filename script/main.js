@@ -178,13 +178,15 @@ const addNewStreams = async (newStreams) => {
       let sub
       let { streamName } = stream
       if (index === 0 && !mainStream) {
+        const name = abr ? `${streamName}_${abrHigh}` : streamName
+        const fullURL = vodBase ? `${vodBase}/${name}.m3u8` : undefined
         sub = await new Subscriber().init(
           {
             ...baseConfig,
             ...stream,
-            streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+            streamName: name,
             maintainStreamVariant: true,
-            liveSeek: { enabled: vod, baseURL: vodBase },
+            liveSeek: { enabled: vod, fullURL: fullURL },
           },
           document.querySelector('.main-video-container')
         )
@@ -260,12 +262,14 @@ const promoteToMain = async (subscriber) => {
   const configuration = subscriber.getConfiguration()
   const { streamName } = configuration
   subscriber.destroy()
+  const name = abr ? `${streamName}_${abrHigh}` : streamName
+  const fullURL = vodBase ? `${vodBase}/${name}.m3u8` : undefined
   const sub = await new Subscriber().init(
     {
       ...configuration,
-      streamName: abr ? `${streamName}_${abrHigh}` : streamName,
+      streamName: name,
       maintainStreamVariant: true,
-      liveSeek: { enabled: vod },
+      liveSeek: { enabled: vod, fullURL: fullURL },
     },
     document.querySelector('.main-video-container')
   )
