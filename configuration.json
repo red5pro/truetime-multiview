@@ -1,0 +1,8 @@
+{
+  "title": "TrueTime MultiView",
+  "webappParentDirectory": "truetime",
+  "webappName": "multiview",
+  "webappSource": "./",
+  "buildCommand": "npm install && npm run build",
+  "webappOutput": "dist"
+}
