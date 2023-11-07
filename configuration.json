@@ -3,6 +3,6 @@
   "webappParentDirectory": "truetime",
   "webappName": "multiview",
   "webappSource": "./",
-  "buildCommand": "npm install && npm run build",
+  "buildCommand": "npm install && npm run build && cp -R ./lib dist/",
   "webappOutput": "dist"
 }
