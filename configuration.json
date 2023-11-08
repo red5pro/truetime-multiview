@@ -3,6 +3,6 @@
   "webappParentDirectory": "truetime",
   "webappName": "truetime-multiview",
   "webappSource": "./",
-  "buildCommand": "npm install && npm run build && cp -R ./lib dist/",
+  "buildCommand": "npm install && npm run build && cp -R ./lib dist/ && mkdir -p dist/css && cp css/media-queries.css dist/css/",
   "webappOutput": "dist"
 }
