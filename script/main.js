@@ -42,6 +42,7 @@ const {
   abrHigh,
   streamManager,
   debugMode,
+  intro,
   streams: streamsQueryList,
 } = query()
 
@@ -382,6 +383,16 @@ const shutdown = () => {
 // Global Event handlers.
 window.addEventListener('pagehide', shutdown)
 window.addEventListener('beforeunload', shutdown)
+
+// Intro specifics.
+const introContainer = document.querySelector('#intro')
+const introSubmit = document.querySelector('#intro-submit')
+if (intro) {
+  introContainer.classList.remove('hidden')
+  introSubmit.addEventListener('click', () => {
+    introContainer.classList.add('hidden')
+  })
+}
 
 // Start the application.
 start()

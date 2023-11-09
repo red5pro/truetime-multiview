@@ -45,6 +45,7 @@ const paramExclude = [
   'abrhigh',
   'vod',
   'vodbase',
+  'intro',
 ]
 
 /**
@@ -85,6 +86,7 @@ export const query = () => {
   const demoOpt = searchParams.get('demo')
   const debugOpt = searchParams.get('debug')
   const embedOpt = searchParams.get('embed')
+  const introOpt = searchParams.get('intro')
   let scriptURL = searchParams.get('url')
     ? decodeURIComponent(searchParams.get('url'))
     : undefined
@@ -105,6 +107,7 @@ export const query = () => {
   let demoMode = demoOpt ? demoOpt.toLowerCase() === 'true' : false
   let debugMode = debugOpt ? debugOpt.toLowerCase() === 'true' : false
   let embedMode = embedOpt ? embedOpt.toLowerCase() === 'true' : false
+  let intro = introOpt ? introOpt.toLowerCase() === 'true' : false
   searchParams.forEach((value, key) => {
     if (paramExclude.indexOf(key) === -1) {
       streams.push({
@@ -127,5 +130,6 @@ export const query = () => {
     demoMode,
     debugMode,
     embedMode,
+    intro,
   }
 }

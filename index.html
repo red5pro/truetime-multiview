@@ -50,6 +50,75 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
           'background: #fff; color: #222'
         )
         console.log('')
+        console.log(
+          '%c [app] ' + '%c       : app context. Default: `live`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [url] ' +
+            '%c       : The optional service URL (including protocol and possible port) that `GET` requests will be made on to retrieve the current list of live streams. Default: `undefined`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [vod] ' +
+            '%c       : The option to allow for live seek controls of the main stream. Default: `true`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [abr] ' +
+            '%c       : Flag to notify the application that the server uses Adaptive Bitrate control to provide different variants of the live streams. Default: `false`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [abrlow] ' +
+            '%c       : When `abr=true`, the specified ladder suffix/index at which the lowest ABR variant resides. This is used in accessing the live stream by name. All the non "main feed" subscribe will then load and playback the lowest ABR variant. Default: `3`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [abrhigh] ' +
+            '%c       : When `abr=true`, the specified ladder suffic/index at which the highest ABR variant resides. This is used in accessing the live stream by name. Only the "main feed" playback will load the highest ABR variant. Default: `1`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [abrhigh] ' +
+            '%c       : When `abr=true`, the specified ladder suffic/index at which the highest ABR variant resides. This is used in accessing the live stream by name. Only the "main feed" playback will load the highest ABR variant. Default: `1`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [vodbase] ' +
+            '%c       : The base URL in which the VOD files for the live streams are located. By default it will look on the `host` for the VOD files. Using this query param you can specify a specific remote base location where the VOD files can be found - such as a CDN or NFS. Default: `undefined`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [embed] ' +
+            '%c       : Flag to enable the ability for users to access the embed options to host their own TrueTime MultiView web application. Default: `false`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
+        console.log(
+          '%c [debug] ' +
+            '%c       : Flag to enable debug logging in the browser Dev Console. Default: `false`',
+          'background: #222; color: #ebefd0',
+          'background: #fff; color: #222'
+        )
+        console.log('')
         console.log('------- /USAGE --------')
       })()
     </script>
@@ -79,6 +148,25 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
       <p id="flip" class="hidden">
         <button id="flip-button">Flip</button>
       </p>
+    </div>
+    <!-- Intro Modal -->
+    <div id="intro" class="intro-container hidden">
+      <div class="intro-container_info">
+        <p>
+          The Red5 Pro TrueTime MultiView&#8482; is a web-based application that
+          allows for viewing multiple live streams while providing the ability
+          to switch between a "main feed" which has <em>optional</em> live seek
+          integration. Additionally, it provides embedding options to easily add
+          a TrueTime MultiView to your own website!
+        </p>
+        <p>
+          More information about query parameters and configuration can be seen
+          by opening the Dev Console of your browser.
+        </p>
+        <p class="intro-container_buttons">
+          <button id="intro-submit">Got it!</button>
+        </p>
+      </div>
     </div>
     <!-- Embed Mode Dialog -->
     <dialog id="embed-dialog">
