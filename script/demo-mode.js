@@ -61,6 +61,7 @@ const setPortrait = () => {
 }
 
 if (demoMode) {
+  flip.classList.remove('hidden')
   body.classList.add('body_demo')
   flip.classList.add('flip_demo')
   app.classList.add('app_demo')
