@@ -23,18 +23,18 @@ The 3 audio tracks are considered the "loudest talkers" minus the current audio 
 
 The 1 video track is a video composite of the video streams of all the `RTCConferenceParticipant`s in the group conference. Because of this, integrating a `RTCConferenceParticipant` into your application will most likely require a Mixer Node.
 
-> Read more about the [Red5 Pro Mixer](https://www.red5pro.com/docs/special/mixer/using-mixer/#gatsby-focus-wrapper).
+> Read more about the [Red5 Pro Mixer](https://www.red5.net/docs/special/mixer/using-mixer/#gatsby-focus-wrapper).
 
-* [Requirements](#requirements)
-* [Configuration Parameters](#configuration-parameters)
-* [Events](#events)
-* [Example](#example)
+- [Requirements](#requirements)
+- [Configuration Parameters](#configuration-parameters)
+- [Events](#events)
+- [Example](#example)
 
 # Requirements
 
 ## Mixer Node
 
-Because the video delivered to each `RTCConferenceParticipant` is a composite of all participants in the conference group, you will most likely need to deploy a [Red5 Pro Mixer] (https://www.red5pro.com/docs/special/mixer/using-mixer/#gatsby-focus-wrapper) as part of your solution.
+Because the video delivered to each `RTCConferenceParticipant` is a composite of all participants in the conference group, you will most likely need to deploy a [Red5 Pro Mixer] (https://www.red5.net/docs/special/mixer/using-mixer/#gatsby-focus-wrapper) as part of your solution.
 
 ## Group Provision
 
@@ -44,19 +44,19 @@ Here is an example of a provision to POST to the server:
 
 ```json
 {
-  guid: 'live',
-  context: 'live',
-  name: 'group01',
-  level: 0,
-  isRestricted: false,
-  parameters: {
-    group: 'webrtc',
-    audiotracks: 3, 
-    videotracks: 1
+  "guid": "live",
+  "context": "live",
+  "name": "group01",
+  "level": 0,
+  "isRestricted": false,
+  "parameters": {
+    "group": "webrtc",
+    "audiotracks": 3,
+    "videotracks": 1
   },
-  restrictions: [],
-  primaries: [],
-  secondaries: []
+  "restrictions": [],
+  "primaries": [],
+  "secondaries": []
 }
 ```
 
@@ -72,16 +72,16 @@ https://<your-red5pro-deployment>/cluster/api?action=provision.create
 
 The `RTCConferenceParticipant` is an extension of `RTCPublisher`. As such, it has the same configuration parameters along with the following additional:
 
-| Property | Required | Default | Description |
-| :--- | :---: | :---: | :--- |
-| groupName | [x] | `group01` | The name of the conference group the participant will be joining. |
+| Property  | Required |  Default  | Description                                                       |
+| :-------- | :------: | :-------: | :---------------------------------------------------------------- |
+| groupName |   [x]    | `group01` | The name of the conference group the participant will be joining. |
 
 # Events
 
 The `RTCConferenceParticipant` is an extension of `RTCPublisher`. As such, it has the same lifecycle events with the following additional accessible from the `RTCConferenceParticipantEventTypes` object:
 
-| Access | Name | Meaning |
-| :--- | :---: | :--- |
+| Access                                          |           Name           | Meaning                                                                                                                                                                                                                                                                                                                 |
+| :---------------------------------------------- | :----------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | RTCConferenceParticipantEventTypes.MEDIA_STREAM | `Conference.MediaStream` | The event will be fired once the `MediaStream` assembled with the 3 audio tracks and 1 composite video track is delivered to the `RTCConferenceParticipant`. The `MediaStream` will be accessible from the event on `data.stream` and can be used to assign as the `srcObject` to an HTML `video` element for playback. |
 
 # Example
@@ -95,14 +95,16 @@ import { RTCConferenceParticpant } from 'red5pro-webrtc-sdk'
 
 const start = async () => {
   const participant = new RTCConferenceParticipant()
-  participant.on('Conference.MediaStream', event => {
-    const { data: { stream } } = event
+  participant.on('Conference.MediaStream', (event) => {
+    const {
+      data: { stream },
+    } = event
     conferenceVideoElement.srcObject = stream
   })
   await participant.init({
     streamName: 'participant1',
     groupName: 'group01',
-    app: 'live/group01'
+    app: 'live/group01',
   })
   await participant.publish()
 }

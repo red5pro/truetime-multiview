@@ -12,7 +12,7 @@ persons to whom the Software is furnished to do so, subject to the following con
 
 The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
 user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
-An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+An  example  of  the EULA can be found on our website at: https://account.red5.net/assets/LICENSE.txt.
 
 The above copyright notice and this license shall be included in all copies or portions of the Software.
 
@@ -80,13 +80,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
         console.log(
           '%c [abrlow] ' +
             '%c       : When `abr=true`, the specified ladder suffix/index at which the lowest ABR variant resides. This is used in accessing the live stream by name. All the non "main feed" subscribe will then load and playback the lowest ABR variant. Default: `3`',
-          'background: #222; color: #ebefd0',
-          'background: #fff; color: #222'
-        )
-        console.log('')
-        console.log(
-          '%c [abrhigh] ' +
-            '%c       : When `abr=true`, the specified ladder suffic/index at which the highest ABR variant resides. This is used in accessing the live stream by name. Only the "main feed" playback will load the highest ABR variant. Default: `1`',
           'background: #222; color: #ebefd0',
           'background: #fff; color: #222'
         )
@@ -420,7 +413,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. -->
       </div>
     </dialog>
     <!-- scripts -->
-    <script src="lib/red5pro/red5pro-sdk.min.js"></script>
+    <!-- <script src="lib/red5pro/red5pro-sdk.min.js"></script> -->
+    <script src="https://unpkg.com/red5pro-webrtc-sdk@latest/red5pro-sdk.min.js"></script>
     <script type="module" src="script/embed-mode.js"></script>
     <script type="module" src="script/demo-mode.js"></script>
     <script type="module" src="script/main.js"></script>
