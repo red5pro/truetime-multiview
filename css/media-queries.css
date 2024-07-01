@@ -13,7 +13,7 @@ persons to whom the Software is furnished to do so, subject to the following con
 
 The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
 user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
-An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+An  example  of  the EULA can be found on our website at: https://account.red5.net/assets/LICENSE.txt.
 
 The above copyright notice and this license shall be included in all copies or portions of the Software.
 
@@ -32,13 +32,16 @@ This file defines all the override rules for when in landscape. */
   } */
 
   .main-video-container {
-    /* height: 100vh; */
     z-index: 1;
+    /* height: 100vh; */
+    /* 51px is height of logo bar */
+    height: calc(100vh - 51px);
   }
 
   .secondary-video-container {
     position: absolute;
-    bottom: 50px;
+    /* bottom: 50px; */
+    top: calc(100vh - calc(100vh / 5) - 50px);
     /* bottom is based on height of main video control bar */
     right: 10px;
     height: calc(100vh / 5);
@@ -70,7 +73,8 @@ This file defines all the override rules for when in landscape. */
   }
 
   .secondary-video-container > .subscriber:not(:first-child) {
-    margin-left: calc(-100vh / 10);
+    /* margin-left: calc(-100vh / 10); */
+    margin-left: 10px;
   }
 
   .secondary-video-container > .subscriber:hover {

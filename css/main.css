@@ -13,7 +13,7 @@ persons to whom the Software is furnished to do so, subject to the following con
 
 The Software shall be used solely in conjunction with Red5 Pro. Red5 Pro is licensed under a separate end
 user  license  agreement  (the  "EULA"),  which  must  be  executed  with  Infrared5,  Inc.
-An  example  of  the EULA can be found on our website at: https://account.red5pro.com/assets/LICENSE.txt.
+An  example  of  the EULA can be found on our website at: https://account.red5.net/assets/LICENSE.txt.
 
 The above copyright notice and this license shall be included in all copies or portions of the Software.
 
@@ -111,10 +111,14 @@ dialog > .dialog_container > h3 {
   position: unset !important;
 }
 
+.red5pro-media {
+  width: 100vw !important;
+}
+
 #app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100lvh;
 }
 
 .main-video-container {
@@ -258,6 +262,7 @@ dialog > .dialog_container > h3 {
   padding-top: 10px;
   padding-bottom: 10px;
   text-align: center;
+  height: 51px;
 }
 
 #logo-holder img {
