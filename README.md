@@ -8,6 +8,11 @@ The Red5 Pro TrueTime MultiView is a web-based application that allows for viewi
 
 Additionally, it provides embedding options to easily add a TrueTime MultiView to your own website!
 
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+  - [Query Params](#query-params)
+- [Examples](#example-usage-with-query-params)
+
 # Project Structure
 
 The following defines the role of the relevant files for the project.
@@ -95,6 +100,8 @@ npm run build
 
 This will generate the built files in a `dist` directory.
 
+> Note: It is not necessary to build the project. This repository can be deployed and accessed from a web browser without generating minified content.
+
 # Usage
 
 When visiting the TrueTime MultiView webapp - either through launching in `dev` or loaded from a built distribution - there are several optional query params that can be added to the landing URL to configure the app to use your own Red5 Pro Server deployment and playback live streams.
@@ -152,7 +159,7 @@ Likewise, if utilizing a Stream Manager, you can provide a `url` similar to [htt
 In order to take advantage of the live seek capabilities of the main feed stream, you will need to set the following attributes in the `conf/hlsconfig.xml` configuration and restart your server:
 
 ```
-<property name="outputFormat" value="FMP4"/>
+<property name="outputFormat" value="TS"/>
 ```
 
 ```
@@ -171,23 +178,78 @@ For example: `vodbase=https://myremotenfs.com`. When the app wants to load and h
 
 > The VOD files are stored as HLS.
 
-### Example URLs
+# Example Usage with Query Params
+
+## Basic Streams
+
+In this example, we have a series of query params that pair labels with stream names.
+
+1. Start a stream on your server (`myred5.com`) with the stream name `stream1`
+2. Start another stream with the stream name `stream2`
+3. Load the mutliview with the following URL (replacing `myred5.com` with the FQDN of your deployment):
+
+```sh
+https://myred5.com/truetime-multiview/?host=myred5.com&Camera%20One=stream1&Camera%20Two=stream2
+```
+
+The query params follow this structure: `<label>=<stream name>`. The first defined `<label>=<stream name>` key-value param will be loaded into the "main feed".
+
+> You can provide any number of `<label>=<stream name>` key-value params. The list will appear below the "main feed" in Portrait orientation with a max of 3 streams per row, wrapping. The first 3 streams will be visible. Any other will appear below-the-fold and scrollable to.
+
+## Loading Streams Listed from a Service
+
+To take advantage of a service that list the desired streams to display, use the `url` query parameter.
+
+1. Start several streams on your server (`myred5.com`)
+2. Load the mutliview with the following URL (replacing `myred5.com` with the FQDN of your deployment):
 
 Using the Service URL:
 
 ```sh
-http://127.0.0.1:5173/?host=myred5pro.com&app=live&url=https://mynfs.com&debug=true
+https://myred5.com/truetime-multiview/?host=myred5.com&url=https://myred5.com/live/streams.jsp
 ```
 
-Using the `<label>=<stream name>` query params:
+> See [Service URL Response](#service-url-response) for more info about expected response payload.
+
+## Providing Live Seek Capability
+
+To take advantage of live seek capabilities (on the main stream only), use the `vod` and optional `vodbase` query params.
+
+1. Set up your deployment for live seek capabilities: [Enabling Live Seek on Server](#enable-live-seek-on-server)
+2. Optionally set up a remote storage server to access the HLS files generated: [VOD Base URL](#vod-base-url)
+3. Start a stream on your server (`myred5.com`) with the stream name `stream1`
+4. Start another stream with the stream name `stream2`
+5. Load the mutliview with the following URL (replacing `myred5.com` with the FQDN of your deployment):
 
 ```sh
-http://127.0.0.1:5173/?host=myred5pro.com&app=live&debug=true&Camera%20One=cameraOne&Camera%20Two=cameraTwo
+https://myred5.com/truetime-multiview/?host=myred5.com&Camera%20One=stream1&Camera%20Two=stream2&vod=true&vodbase=https://myremotenfs.com
 ```
 
-The first defined `<label>=<stream name>` key-value param will be loaded into the "main feed".
+> See [Enabling Live Seek on Server](#enable-live-seek-on-server) and [VOD Base URL](#vod-base-url) for more info about setting up your deployment for live seek.
 
-> You can provide any number of `<label>=<stream name>` key-value params. The list will appear below the "main feed" in Portrait orientation with a max of 3 streams per row, wrapping. The first 3 streams will be visible. Any other will appear below-the-fold and scrollable to.
+## Transcoding and Adaptive Bitrate
+
+To take advantage of Red5's transcoding and adaptive bitrate playback capabilities, you will first need to set up your deployment to enable transcoding.
+
+> Please read the [Transcoding and ABR](https://www.red5.net/docs/special/transcoder/overview/) documentation for proper setup and provisioning.
+
+1. Set up for deployment for transcoding capabilities
+2. Post a couple of provisions detailing the 3 stream varaints each for transcoding for streams with names `stream1` and `stream2`
+3. Start the `stream1_1` stream for the highest variant for stream name `stream1`
+4. Start the `stream2_1` stream for the highest variant for stream name `stream2`
+5. Load the mutliview with the following URL (replacing `myred5.com` with the FQDN of your deployment):
+
+```sh
+https://myred5.com/truetime-multiview/?host=myred5.com&Camera%20One=stream1&Camera%20Two=stream2&abr=true&abrhigh=1&abrlow=3
+```
+
+Of note are the `abr`, `abrhigh` and `abrlow` query params in this example.
+
+- `abr=true` will tell the multiview app that the streams to subscribe to are going to be variants based on the provisions you posted in Step 2 of this example.
+- `abrhigh=1` will tell the multiview app that the stream to load in the "main" view should be of the highest variant - in following this example, that stream name will initially be `stream1_1`
+- `abrlow=3` will tell the multiview app that the streams to load in the smaller views should be of the lowest variant - in following this example, that stream name will initially be `stream2_3`
+
+> If you are using a [Red5 Cloud](https://cloud.red5.net/pricing) deployment, please visit the `Deployments` section in your account dashboard to define transcoder options of a deployment.
 
 # Embed
 
