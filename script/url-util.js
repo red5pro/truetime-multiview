@@ -40,6 +40,7 @@ const paramExclude = [
   'debug',
   'embed',
   'sm',
+  'nodegroup',
   'abr',
   'abrlow',
   'abrhigh',
@@ -82,6 +83,7 @@ export const query = () => {
   const abrLowOpt = searchParams.get('abrlow')
   const abrHighOpt = searchParams.get('abrhigh')
   const smOpt = searchParams.get('sm')
+  const nodeGroupOpt = searchParams.get('nodegroup')
   const vodOpt = searchParams.get('vod')
   const demoOpt = searchParams.get('demo')
   const debugOpt = searchParams.get('debug')
@@ -95,7 +97,7 @@ export const query = () => {
     : undefined
   let app = searchParams.get('app')
     ? decodeURIComponent(searchParams.get('app'))
-    : undefined
+    : 'live'
   const vodBase = searchParams.get('vodbase')
     ? decodeURIComponent(searchParams.get('vodbase'))
     : undefined
@@ -126,6 +128,7 @@ export const query = () => {
     abrLow,
     abrHigh,
     streamManager,
+    nodeGroup: nodeGroupOpt,
     streams,
     demoMode,
     debugMode,

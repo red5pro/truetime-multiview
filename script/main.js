@@ -41,6 +41,7 @@ const {
   abrLow,
   abrHigh,
   streamManager,
+  nodeGroup,
   debugMode,
   intro,
   streams: streamsQueryList,
@@ -65,6 +66,13 @@ const baseConfig = {
   app: app || 'live',
 }
 
+// Optional node group configuration for Stream Manager 2.0.
+if (streamManager) {
+  baseConfig.connectionParams = {
+    nodeGroup: nodeGroup || 'default',
+  }
+}
+
 /**
  * Loads and parses the JSON payload from the scriptURL to determine the list of streams to display.
  * @param {String} scriptURL
@@ -78,9 +86,11 @@ const getStreamMapFromScriptURL = async (scriptURL) => {
   // * [ <string> ]
   // * [ { name: <string> } ]
   // * [ { name: <string>, label: <string> } ]
+  // * [ { streamGuid: <string>, nodeRole: <string> } ]
   // * { <string>: <string> }
   if (Object.prototype.toString.call(json) === '[object Array]') {
     json.forEach((item) => {
+      // SM 1.0 stream list payload.
       if (typeof item === 'object' && item.name) {
         if (!item.type || (item.type && item.type !== 'origin')) {
           list.push({
@@ -88,7 +98,26 @@ const getStreamMapFromScriptURL = async (scriptURL) => {
             streamName: item.name,
           })
         }
+      } else if (typeof item === 'object' && item.streamGuid) {
+        // SM 2.0 stream list payload >
+        // If nodeRole matches /^edge/
+        if (item.nodeRole && item.nodeRole.match(/^edge/)) {
+          const guid = item.streamGuid
+          // Split the stream name after the last / in the streamGuid.
+          let parts = guid.split('/')
+          if (parts.length > 1) {
+            const streamName = parts.pop()
+            const context = parts.join('/')
+            if (context === app) {
+              list.push({
+                label: streamName,
+                streamName,
+              })
+            }
+          }
+        }
       } else if (typeof item === 'string') {
+        // streams.jsp payload >
         list.push({ label: item, streamName: item })
       }
     })
