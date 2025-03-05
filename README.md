@@ -231,7 +231,7 @@ https://myred5.com/truetime-multiview/?host=myred5.com&Camera%20One=stream1&Came
 
 To take advantage of Red5's transcoding and adaptive bitrate playback capabilities, you will first need to set up your deployment to enable transcoding.
 
-> Please read the [Transcoding and ABR](https://www.red5.net/docs/special/transcoder/overview/) documentation for proper setup and provisioning.
+> Please read the [Transcoding and ABR](https://www.red5.net/docs/red5-pro/users-guide/transcoder/red5-pro-transcoding-and-abr-overview/) documentation for proper setup and provisioning.
 
 1. Set up for deployment for transcoding capabilities
 2. Post a couple of provisions detailing the 3 stream varaints each for transcoding for streams with names `stream1` and `stream2`
