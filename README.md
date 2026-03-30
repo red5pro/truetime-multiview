@@ -4,7 +4,7 @@
 
 # Red5 TrueTime MultiView™
 
-The Red5 TrueTime MultiView™ is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has _optional_ live seek integration.
+The Red5 TrueTime MultiView™ is a web-based application that allows for viewing multiple live streams while providing the ability to switch between a "main feed" which has _optional_ live seek integration. Learn more about features and use cases [here] (https://www.red5.net/truetime/multiview/)
 
 Additionally, it provides embedding options to easily add a TrueTime MultiView to your own website!
 
