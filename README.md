@@ -148,9 +148,9 @@ By providing a `url` query param, it will be used to make a `GET` request to acc
 - `[ { name: <string>, label: <string> } ]`: The `name` denoted the steam name and the `label` denotes the textual label to display.
 - `{ <string>: <string> }`: The key will denotes the textual label and the value denotes the stream name.
 
-By default, you can access a simple list of available streams from [https://yourred5pro.com/live/streams.jsp](https://yourred5pro.com/live/streams.jsp). You can simply provide that if you wish, or you can define which stream explicitly using the `<label>=<stream name>` key-value query params defined in the previous section.
+By default, you can access a simple list of available streams from [https://your-standalone-red5.com/live/streams.jsp](https://your-standalone-red5.com/live/streams.jsp). You can simply provide that if you wish, or you can define which stream explicitly using the `<label>=<stream name>` key-value query params defined in the previous section.
 
-Likewise, if utilizing a Stream Manager, you can provide a `url` similar to [https://yourred5pro.com/streammanager/api/4.0/event/list](https://yourred5pro.com/streammanager/api/4.0/event/list) that will return a payload with acceptable structure.
+Likewise, if utilizing a Stream Manager or (Red5 Cloud), you can provide a `url` similar to [https://your-sm-red5.com/as/v1/streams/stream/<nodeGroupName>?stats=true&aggregate=false](https://your-sm-red5.com/as/v1/streams/stream/<nodeGroupName>?stats=true&aggregate=false) that will return a payload with acceptable structure.
 
 > If using the `url` query param, the application will make a recurring request every 5 seconds for an updated stream list.
 
