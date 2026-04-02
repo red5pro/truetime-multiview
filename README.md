@@ -71,7 +71,7 @@ The [embed.css](css/embed.css) file provides style declarations related to the e
 
 ## lib/red5pro
 
-The Red5 Pro WebRTC SDK release files.
+The Red5 Pro HTML SDK release files.
 
 ## examples/ttmv-iframe
 
