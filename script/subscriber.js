@@ -145,6 +145,8 @@ class Subscriber {
     this.controls = undefined
     this.retryTimeout = 0
     this.destroyed = false
+    // Whether the stream is currently playable.
+    this.available = true
     this.hlsElement = undefined
     this.hlsControl = undefined
     this.durationHandler = this.onHLSDurationLoad.bind(this)
@@ -418,6 +420,7 @@ class Subscriber {
    * @param {Boolean} available
    */
   setAvailable(available) {
+    this.available = available
     let notification = this.element.querySelector('.subscriber_notification')
     if (available && notification) {
       notification.parentNode.removeChild(notification)
@@ -428,6 +431,14 @@ class Subscriber {
       )
       this.element.appendChild(notification)
     }
+  }
+
+  /**
+   * Returns whether the stream is currently playable.
+   * @returns Boolean
+   */
+  getIsAvailable() {
+    return this.available
   }
 
   /**
