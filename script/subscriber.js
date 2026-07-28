@@ -144,7 +144,6 @@ class Subscriber {
     this.onswitch = undefined
     this.controls = undefined
     this.retryTimeout = 0
-    this.streamConfigurationToSwitchTo = undefined
     this.destroyed = false
     this.hlsElement = undefined
     this.hlsControl = undefined
@@ -220,17 +219,10 @@ class Subscriber {
 
   /**
    * Handler for once the stream has been successfully switched to another stream.
+   * The tracked configuration and label are updated eagerly in `switchTo`, so this
+   * handler only performs the playback side effects once the switch is confirmed.
    */
   onSwitchTo() {
-    this.configuration = {
-      ...this.configuration,
-      ...this.streamConfigurationToSwitchTo,
-    }
-    this.streamConfigurationToSwitchTo = undefined
-    const video = this.element.querySelector('.subscriber_video')
-    const label = this.element.querySelector('.subscriber_label')
-    label.textContent =
-      this.configuration.label || this.configuration.streamName
     this.subscriber.seekTo(1)
     if (this.isMain) {
       // this.subscriber.unmute();
@@ -368,8 +360,16 @@ class Subscriber {
     const switchPath = regex.exec(streamName)
       ? streamName
       : `${app}/${streamName}`
-    this.streamConfigurationToSwitchTo = configuration
     console.log('[Subscriber] switchStreams', previousStreamName, streamName)
+    // Update the tracked configuration and visible label immediately. The
+    // stream-switch confirmation event (`onSwitchTo`) is asynchronous and can be
+    // delayed or missed -- especially when switching back to a previously shown
+    // stream -- which previously left the main label stale and the configuration
+    // used for the next switch out of date (making a stream appear unresponsive).
+    this.configuration = { ...this.configuration, ...configuration }
+    const label = this.element.querySelector('.subscriber_label')
+    label.textContent =
+      this.configuration.label || this.configuration.streamName
     this.subscriber.callServer('switchStreams', [
       {
         path: switchPath,
