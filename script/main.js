@@ -340,6 +340,16 @@ const onAutoPlayMuted = () => {
  * @param {Object} configuration
  */
 const onSwitchStream = (toSubscriber, configuration) => {
+  // Only switch when both streams are live; switching to/from an unavailable stream corrupts state.
+  if (
+    !mainStream ||
+    toSubscriber === mainStream ||
+    !mainStream.getIsAvailable() ||
+    !toSubscriber.getIsAvailable()
+  ) {
+    return
+  }
+
   let { label, streamName } = configuration
   let { label: fromLabel, streamName: fromStreamName } =
     mainStream.getConfiguration()
